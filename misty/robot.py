@@ -11,10 +11,10 @@ class Misty:
     def __str__(self) -> str:
         return "A Misty II robot with IP address %s" % self.ip
 
-    def action(self, endpoint: str, data: dict) -> bool:
-        r = self.actions.perform_action(endpoint, data)
+    def perform_action(self, action_name: str, data: dict) -> bool:
+        r = self.actions.perform_action(action_name, data)
         return r
 
-    def info(self, endpoint: str) -> dict:
-        r = self.infos.get_info(endpoint)
+    def get_info(self, info_name: str) -> dict:
+        r = self.infos.get_info(info_name)
         return r

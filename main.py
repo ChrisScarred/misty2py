@@ -7,10 +7,10 @@ cols = {
     "green": "0",
     "blue": "0"
 }
-r = misty_robot.action('api/led', cols)
+r = misty_robot.perform_action('api/led', cols)
 print(r)
 
-r = misty_robot.info('api/blink/settings')
+r = misty_robot.get_info('blink_settings')
 print(r)
 
 print(misty_robot)
