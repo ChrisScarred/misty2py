@@ -10,7 +10,7 @@ cols = {
 r = misty_robot.action('api/led', cols)
 print(r)
 
-r = misty_robot.information('api/blink/settings')
+r = misty_robot.info('api/blink/settings')
 print(r)
 
 print(misty_robot)

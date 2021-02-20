@@ -1,17 +1,20 @@
-import requests
+from misty.information import *
+from misty.action import *
 
 
 class Misty:
-    def __init__(self, ip: str):
+    def __init__(self, ip: str) -> None:
         self.ip = ip
+        self.infos = Info(ip)
+        self.actions = Action(ip)
 
     def __str__(self) -> str:
         return "A Misty II robot with IP address %s" % self.ip
 
-    def action(self, endpoint: str, data: dict) -> dict:
-        r = requests.post('http://%s/%s' % (self.ip, endpoint), json = data)
-        return r.json()
+    def action(self, endpoint: str, data: dict) -> bool:
+        r = self.actions.perform_action(endpoint, data)
+        return r
 
-    def information(self, endpoint: str) -> dict:
-        r = requests.get('http://%s/%s' % (self.ip, endpoint))
-        return r.json()
+    def info(self, endpoint: str) -> dict:
+        r = self.infos.get_info(endpoint)
+        return r

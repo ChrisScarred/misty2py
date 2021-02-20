@@ -15,4 +15,4 @@ def test_light_off():
         "blue": "0"
     }
     r = misty_robot.action('api/led', cols)
-    assert r['result'] == True and r['status'] == 'Success'
+    assert r
