@@ -1,14 +1,16 @@
-from misty import Misty
+from misty.robot import Misty
 
 
-mist = Misty("192.168.0.103")
+misty_robot = Misty("192.168.0.103")
 cols = {
     "red": "0",
     "green": "0",
     "blue": "0"
 }
-r = mist.action('api/led', cols)
+r = misty_robot.action('api/led', cols)
 print(r)
 
-r = mist.information('api/blink/settings')
+r = misty_robot.information('api/blink/settings')
 print(r)
+
+print(misty_robot)
