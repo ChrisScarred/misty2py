@@ -9,6 +9,7 @@ class Get():
         self.ip = ip
         f = open(allowed_infos_file)
         self.allowed_infos = json.loads(f.read())
+        f.close()
     
     def get_info(self, endpoint : str) -> dict:
         r = requests.get('http://%s/%s' % (self.ip, endpoint))

@@ -11,8 +11,8 @@ class Misty:
     def __str__(self) -> str:
         return "A Misty II robot with IP address %s" % self.ip
 
-    def perform_action(self, action_name: str, data: dict) -> bool:
-        r = self.actions.perform_action(action_name, data)
+    def perform_action(self, action_name: str, string = "", dct = {}, method = "dict") -> bool:
+        r = self.actions.perform_action(action_name, string, dct, method)
         return r
 
     def get_info(self, info_name: str) -> dict:

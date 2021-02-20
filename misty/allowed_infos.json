@@ -1,1 +1,3 @@
-{ "blink_settings": "api/blink/settings" }
+{
+    "blink_settings": "api/blink/settings"
+}
