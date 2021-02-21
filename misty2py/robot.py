@@ -24,8 +24,13 @@ class Misty:
         ----------
         ip : str
             The IP address of this Misty robot.
+        custom_info : dict, optional
+            Custom information keywords in the form of dictionary with key being the keyword and value being the API endpoint, by default {}
+        custom_actions : dict, optional
+            Custom actions keywords in the form of dictionary with key being the keyword and value being the API endpoint, by default {}
+        custom_data : dict, optional
+            Custom data shortcuts in the form of dictionary with key being the shortcut and value being the json data in the form of a dictionary, by default {}
         """
-
         self.ip = ip
         self.infos = Info(ip, custom_allowed_infos=custom_info)
         self.actions = Action(ip, custom_allowed_actions=custom_actions, custom_allowed_data=custom_data)

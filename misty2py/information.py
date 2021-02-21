@@ -26,8 +26,8 @@ class Get():
         ----------
         ip : str
             The IP address where the requests are sent
-        allowed_infos_file : str, optional
-            The name of the file containing the dictionary of information keywords, by default INFOS_JSON
+        custom_allowed_infos : str, optional
+            The dictionary of custom information keywords, by default {}
         """
         self.ip = ip
 
@@ -35,7 +35,7 @@ class Get():
         f = open(INFOS_JSON)
         allowed_infos.update(json.loads(f.read()))
         f.close()
-        
+
         self.allowed_infos = allowed_infos
     
     def get_info(self, endpoint : str) -> dict:

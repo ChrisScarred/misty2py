@@ -17,9 +17,9 @@ class Post():
     ip : str
         The IP address where the requests are sent
     allowed_actions : dict
-        The dictionary of action keywords matching to the Misty's API endpoints.
+        The dictionary of custom action keywords matching to the Misty's API endpoints.
     allowed_data : dict
-        The dictionary of data shortcuts matching to the json dictionaries required my Misty's API.
+        The dictionary of custom data shortcuts matching to the json dictionaries required my Misty's API.
     """
 
     def __init__(self, ip : str, custom_allowed_actions = {}, custom_allowed_data = {}) -> None:
@@ -29,10 +29,10 @@ class Post():
         ----------
         ip : str
             The IP address where the requests are sent
-        allowed_actions_file : str, optional
-            The name of the file containing the dictionary of action keywords, by default ACTIONS_JSON
-        allowed_data_file : str, optional
-            The name of the file containing the dictionary of data shortcuts, by default DATA_JSON
+        custom_allowed_actions : str, optional
+            The dictionary of action keywords, by default {}
+        custom_allowed_data : str, optional
+            The dictionary of data shortcuts, by default {}
         """
 
         self.ip = ip
