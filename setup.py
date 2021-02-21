@@ -19,6 +19,12 @@ setup(
     author_email='scarred.chris@gmail.com',
     url="https://github.com/ChrisScarred/misty2py",
     packages=['misty2py'],
+    include_package_data=True,
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
     install_requires=['requests'],
     python_requires='>=3'
 )

@@ -2,9 +2,11 @@
 """
 import requests
 import json
+from os import path
 
 
-INFOS_JSON = "misty2py/allowed_infos.json"
+this_directory = path.abspath(path.dirname(__file__))
+INFOS_JSON = str(path.join(this_directory, "allowed_infos.json"))
 
 class Get():
     """A class representing the GET url request method.

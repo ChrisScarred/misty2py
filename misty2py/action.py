@@ -2,10 +2,12 @@
 """
 import requests
 import json
+from os import path
 
 
-ACTIONS_JSON = "misty2py/allowed_actions.json"
-DATA_JSON = "misty2py/allowed_data.json"
+this_directory = path.abspath(path.dirname(__file__))
+ACTIONS_JSON = str(path.join(this_directory, "allowed_actions.json"))
+DATA_JSON = str(path.join(this_directory, "allowed_data.json"))
 
 class Post():
     """A class representing the POST url request method.
