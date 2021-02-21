@@ -1,20 +1,24 @@
 from setuptools import setup
+from os import path
 
-"""
-TODO: add this later
-with open("README", 'r') as f:
+this_directory = path.abspath(path.dirname(__file__))
+with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
-"""
+
+with open(path.join(this_directory, 'version.txt'), encoding='utf-8') as f:
+    version = f.read()
 
 setup(
-   name='misty',
-   version='0.1',
-   description='mistypy',
-   license="MIT",
-   #long_description=long_description,
-   author='ChrisScarred',
-   author_email='scarred.chris@gmail.com',
-   url="https://github.com/ChrisScarred",
-   packages=['misty'],  #same as name
-   install_requires=['requests'] #external packages as dependencies
+    name = 'misty2py',
+    version = version,
+    description = 'Misty II python3 wrapper',
+    license = "MIT",
+    long_description = long_description,
+    long_description_content_type = 'text/markdown',
+    author='ChrisScarred',
+    author_email='scarred.chris@gmail.com',
+    url="https://github.com/ChrisScarred/misty2py",
+    packages=['misty2py'],
+    install_requires=['requests'],
+    python_requires='>=3'
 )
