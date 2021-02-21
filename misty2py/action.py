@@ -37,13 +37,31 @@ class Post():
 
         self.ip = ip
 
+        allowed_actions = {}
+
         f = open(allowed_actions_file)
-        self.allowed_actions = json.loads(f.read())
+        allowed_actions.update(json.loads(f.read()))
         f.close()
 
+        if ACTIONS_JSON != allowed_actions_file:
+            f = open(ACTIONS_JSON)
+            allowed_actions.update(json.loads(f.read()))
+            f.close()
+        
+        self.allowed_actions = allowed_actions
+
+        allowed_data = {}
+
         f = open(allowed_data_file)
-        self.allowed_data = json.loads(f.read())
+        allowed_data.update(json.loads(f.read()))
         f.close()
+
+        if DATA_JSON != allowed_data_file:
+            f = open(DATA_JSON)
+            allowed_data.update(json.loads(f.read()))
+            f.close()
+
+        self.allowed_data = allowed_data
 
     def perform_action(self, endpoint : str, data: dict) -> bool:
         """Sends a POST request.

@@ -30,9 +30,18 @@ class Get():
             The name of the file containing the dictionary of information keywords, by default INFOS_JSON
         """
         self.ip = ip
+
+        allowed_infos = {}
         f = open(allowed_infos_file)
-        self.allowed_infos = json.loads(f.read())
+        allowed_infos.update(json.loads(f.read()))
         f.close()
+
+        if INFOS_JSON != allowed_infos_file:
+            f = open(INFOS_JSON)
+            allowed_infos.update(json.loads(f.read()))
+            f.close()
+
+        self.allowed_infos = allowed_infos
     
     def get_info(self, endpoint : str) -> dict:
         """Sends a GET request.
