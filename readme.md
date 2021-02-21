@@ -18,6 +18,10 @@ from misty2py.robot import Misty
 misty_robot = Misty("0.0.0.0")
 ```
 - substitute `"0.0.0.0"` by the IP address of your Misty.
+- optional parameters can be used to pass custom keywords and shortcuts:
+    - `custom_info` takes custom information keywords in the form of a dictionary with keys being the keywords and values being the API endpoints.
+    - `custom_actions` takes custom actions keywords in the form of a dictionary with keys being the keywords and values being the API endpoints.
+    - `custom_data` takes custom data shortcuts in the form of a dictionary with keys being the shortcuts and values being the json data in the form of a dictionary.
 - use method `perform_action` to tell Misty to perform an action
     - currently you can only use `misty_robot.perform_action('led', dct=colours, method="dict")` to change the LED light on Misty's chest to a supplied json value or `misty_robot.perform_action('led', string="led_off", method="string")` to turn the LED light on Misty's chest off
     - the action `led` corresponds to the `/api/led` endpoint
