@@ -17,7 +17,7 @@ class Misty:
         The object of Action class that belongs to this Misty.
     """
 
-    def __init__(self, ip: str, custom_info="", custom_actions="", custom_data="") -> None:
+    def __init__(self, ip: str, custom_info={}, custom_actions={}, custom_data={}) -> None:
         """Initialises an instance of a Misty robot.
 
         Parameters
@@ -27,21 +27,9 @@ class Misty:
         """
 
         self.ip = ip
-
-        if custom_info != "":
-            self.infos = Info(ip, allowed_infos_file=custom_info)
-        else:
-            self.infos = Info(ip)
-
-        if custom_actions != "" and custom_data != "":
-            self.actions = Action(ip, allowed_actions_file=custom_actions, allowed_data_file=custom_data)
-        elif custom_actions != "":
-            self.actions = Action(ip, allowed_actions_file=custom_actions)
-        elif custom_data != "":
-            self.actions = Action(ip, allowed_data_file=custom_data)
-        else:
-            self.actions = Action(ip)
-
+        self.infos = Info(ip, custom_allowed_infos=custom_info)
+        self.actions = Action(ip, custom_allowed_actions=custom_actions, custom_allowed_data=custom_data)
+        
     def __str__(self) -> str:
         """Transforms a Misty() object into a string.
 

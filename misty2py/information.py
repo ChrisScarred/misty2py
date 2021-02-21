@@ -19,7 +19,7 @@ class Get():
         The dictionary of information keywords matching to the Misty's API endpoints.
     """
 
-    def __init__(self, ip : str, allowed_infos_file = INFOS_JSON) -> None:
+    def __init__(self, ip : str, custom_allowed_infos = {}) -> None:
         """Initialises a Get object.
 
         Parameters
@@ -31,16 +31,11 @@ class Get():
         """
         self.ip = ip
 
-        allowed_infos = {}
-        f = open(allowed_infos_file)
+        allowed_infos = custom_allowed_infos
+        f = open(INFOS_JSON)
         allowed_infos.update(json.loads(f.read()))
         f.close()
-
-        if INFOS_JSON != allowed_infos_file:
-            f = open(INFOS_JSON)
-            allowed_infos.update(json.loads(f.read()))
-            f.close()
-
+        
         self.allowed_infos = allowed_infos
     
     def get_info(self, endpoint : str) -> dict:

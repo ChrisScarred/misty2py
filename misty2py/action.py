@@ -22,7 +22,7 @@ class Post():
         The dictionary of data shortcuts matching to the json dictionaries required my Misty's API.
     """
 
-    def __init__(self, ip : str, allowed_actions_file = ACTIONS_JSON, allowed_data_file = DATA_JSON) -> None:
+    def __init__(self, ip : str, custom_allowed_actions = {}, custom_allowed_data = {}) -> None:
         """Initialises a Post object.
 
         Parameters
@@ -37,30 +37,16 @@ class Post():
 
         self.ip = ip
 
-        allowed_actions = {}
-
-        f = open(allowed_actions_file)
+        allowed_actions = custom_allowed_actions
+        f = open(ACTIONS_JSON)
         allowed_actions.update(json.loads(f.read()))
         f.close()
-
-        if ACTIONS_JSON != allowed_actions_file:
-            f = open(ACTIONS_JSON)
-            allowed_actions.update(json.loads(f.read()))
-            f.close()
-        
         self.allowed_actions = allowed_actions
 
-        allowed_data = {}
-
-        f = open(allowed_data_file)
+        allowed_data = custom_allowed_data
+        f = open(DATA_JSON)
         allowed_data.update(json.loads(f.read()))
         f.close()
-
-        if DATA_JSON != allowed_data_file:
-            f = open(DATA_JSON)
-            allowed_data.update(json.loads(f.read()))
-            f.close()
-
         self.allowed_data = allowed_data
 
     def perform_action(self, endpoint : str, data: dict) -> bool:
