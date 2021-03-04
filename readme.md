@@ -79,5 +79,8 @@ custom_allowed_actions = {
     }
 }
 
-misty_robot = Misty("0.0.0.0", custom_info=custom_allowed_infos, custom_actions=custom_allowed_actions, custom_data=custom_allowed_data)
+misty_robot = Misty("0.0.0.0", 
+    custom_info=custom_allowed_infos, 
+    custom_actions=custom_allowed_actions, 
+    custom_data=custom_allowed_data)
 ```
