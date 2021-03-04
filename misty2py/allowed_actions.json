@@ -6,5 +6,41 @@
     "audio_play": {
         "endpoint": "api/audio/play",
         "method": "post"
+    },
+    "delete_audio": {
+        "endpoint": "api/audio",
+        "method": "delete"
+    },
+    "delete_image": {
+        "endpoint": "api/images",
+        "method": "delete"
+    },
+    "delete_video": {
+        "endpoint": "api/videos",
+        "method": "delete"
+    },
+    "delete_blink_mapping": {
+        "endpoint": "api/blink/images",
+        "method": "delete"
+    },
+    "delete_slam_map": {
+        "endpoint": "api/slam/map",
+        "method": "delete"
+    },
+    "delete_recording": {
+        "endpoint": "api/videos/recordings",
+        "method": "delete"
+    },
+    "delete_face": {
+        "endpoint": "api/faces",
+        "method": "delete"
+    },
+    "delete_skill": {
+        "endpoint": "api/skills",
+        "method": "delete"
+    },
+    "delete_wifi": {
+        "endpoint": "api/networks",
+        "method": "delete"
     }
 }
