@@ -96,10 +96,17 @@ class Action(Post):
             Whether or not the action request was successful.
         """
 
-        r = False
-        if action_name in self.allowed_actions.keys():
+        if not action_name in self.allowed_actions.keys():
+            r = {"result" : "Failed", "message" : "Command `%s` not supported." % action_name}
+        else:
             if data_method == "dict":
-                r = super().perform_action(self.allowed_actions[action_name]["endpoint"], dct, request_method=self.allowed_actions[action_name]["method"])
+                try:
+                    r = super().perform_action(self.allowed_actions[action_name]["endpoint"], dct, request_method=self.allowed_actions[action_name]["method"])
+                except:
+                    r = {"result" : "Failed", "message" : "Unknown error - perhaps your Misty edition does not support this endpoint?"}
             elif data_method == "string" and string in self.allowed_data:
-                r = super().perform_action(self.allowed_actions[action_name]["endpoint"], self.allowed_data[string], request_method=self.allowed_actions[action_name]["method"])
+                try:
+                    r = super().perform_action(self.allowed_actions[action_name]["endpoint"], self.allowed_data[string], request_method=self.allowed_actions[action_name]["method"])
+                except:
+                    r = {"result" : "Failed", "message" : "Unknown error - perhaps your Misty edition does not support this endpoint?"}
         return r

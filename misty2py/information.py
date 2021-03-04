@@ -74,7 +74,7 @@ class Info(Get):
         """
         
         if not info_name in self.allowed_infos.keys():
-            r = {"result" : "Fail"}
+            r = {"result" : "Failed", "message" : "Command `%s` not supported." % info_name}
         else:
             endpoint = self.allowed_infos[info_name]
 
@@ -82,7 +82,8 @@ class Info(Get):
                 endpoint += "?"
                 query_string = urlencode(params)
                 endpoint += query_string
-                print(endpoint)
-
-            r = super().get_info(endpoint)
+            try:
+                r = super().get_info(endpoint)
+            except:
+                r = {"result" : "Failed", "message" : "Unknown error - perhaps your Misty edition does not support this endpoint?"}
         return r
