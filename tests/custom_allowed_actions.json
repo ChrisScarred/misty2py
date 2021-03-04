@@ -1,3 +1,6 @@
 {
-    "audio_play": "api/audio/play"
+    "audio_play": {
+        "endpoint": "api/audio/play",
+        "method": "post"
+    }
 }

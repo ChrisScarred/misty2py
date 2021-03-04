@@ -45,7 +45,7 @@ class Misty:
         """
         return "A Misty II robot with IP address %s" % self.ip
 
-    def perform_action(self, action_name: str, string = "", dct = {}, method = "dict") -> bool:
+    def perform_action(self, action_name: str, string = "", dct = {}, data_method = "dict") -> bool:
         """Sends Misty a request to perform an action.
 
         Parameters
@@ -64,7 +64,7 @@ class Misty:
         bool
             Successfulness of the action request.
         """
-        r = self.actions.perform_action(action_name, string, dct, method)
+        r = self.actions.perform_action(action_name, string, dct, data_method)
         return r
 
     def get_info(self, info_name: str) -> dict:

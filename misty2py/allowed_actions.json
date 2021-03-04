@@ -1,3 +1,6 @@
 {
-    "led": "api/led"
+    "led": {
+        "endpoint": "api/led",
+        "method": "post"
+    }
 }

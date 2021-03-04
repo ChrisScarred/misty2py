@@ -21,14 +21,14 @@ misty_robot = Misty("0.0.0.0")
 
 - substitute `"0.0.0.0"` with the IP address of your Misty.
 
-- use method `perform_action` to tell Misty to **perform an action**
-    - the first string argument is the action keyword, other arguments are:
+- use method `perform_action` to tell Misty to **perform an action:**
+    - the first string argument is the action keyword, other optional arguments are:
         - `string` - the data to pass to the request as *a data shortcut*, defaults to `""`
         - `dct` - the data to pass to the request as *a dictionary*, defaults to `{}`
         - `data_method` - `"string"` if the data is passed as a data shrotcut, `"dict"` if the data is passed as a dictionary, defaults to `"dict"`
 
-- use method `get_info` to tell Misty to **return information**
-    - the one string argument is the information keyword
+- use method `get_info` to tell Misty to **return information:**
+    - takes a string argument corresponding to the information keyword
     
 ### Supported action keywords
 | keyword | endpoint  | data format                                                                                                                  | explanation                 |

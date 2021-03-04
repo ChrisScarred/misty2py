@@ -49,7 +49,7 @@ class Post():
         f.close()
         self.allowed_data = allowed_data
 
-    def perform_action(self, endpoint : str, data: dict) -> bool:
+    def perform_action(self, endpoint : str, data: dict, request_method: str = "post") -> bool:
         """Sends a POST request.
 
         Parameters
@@ -64,17 +64,17 @@ class Post():
         bool
             Whether or not the request was successful.
         """
-
-        r = requests.post('http://%s/%s' % (self.ip, endpoint), json = data)
-        dct = r.json()
-        return dct["status"] == "Success"
+        if request_method=="post":
+            r = requests.post('http://%s/%s' % (self.ip, endpoint), json = data)
+            dct = r.json()
+            return dct["status"] == "Success"
 
 
 class Action(Post):
     """A class representing an action request for Misty. A subclass of Post().
     """
 
-    def perform_action(self, action_name: str, string : str, dct : dict, method : str) -> bool:
+    def perform_action(self, action_name: str, string : str, dct : dict, data_method : str) -> bool:
         """Sends an action request to Misty.
 
         Parameters
@@ -96,8 +96,8 @@ class Action(Post):
 
         r = False
         if action_name in self.allowed_actions.keys():
-            if method == "dict":
-                r = super().perform_action(self.allowed_actions[action_name], dct)
-            elif method == "string" and string in self.allowed_data:
-                r = super().perform_action(self.allowed_actions[action_name], self.allowed_data[string])
+            if data_method == "dict":
+                r = super().perform_action(self.allowed_actions[action_name]["endpoint"], dct, request_method=self.allowed_actions[action_name]["method"])
+            elif data_method == "string" and string in self.allowed_data:
+                r = super().perform_action(self.allowed_actions[action_name]["endpoint"], self.allowed_data[string], request_method=self.allowed_actions[action_name]["method"])
         return r

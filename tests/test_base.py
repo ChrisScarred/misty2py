@@ -29,11 +29,11 @@ def test_basic_action_dict_method():
         "green": "20",
         "blue": "40"
     }
-    r = misty_robot.perform_action('led', dct=colours, method="dict")
+    r = misty_robot.perform_action('led', dct=colours, data_method="dict")
     assert r
 
 def test_basic_action_string_method():
-    r = misty_robot.perform_action('led', string="led_off", method="string")
+    r = misty_robot.perform_action('led', string="led_off", data_method="string")
     assert r
 
 def test_basic_info():
@@ -44,11 +44,11 @@ def test_custom_action_dict_method():
     colours = {
         "FileName": "s_Amazement.wav"
     }
-    r = misty_robot.perform_action('audio_play', dct=colours, method="dict")
+    r = misty_robot.perform_action('audio_play', dct=colours, data_method="dict")
     assert r
 
 def test_custom_action_string_method():
-    r = misty_robot.perform_action('audio_play', string="song", method="string")
+    r = misty_robot.perform_action('audio_play', string="song", data_method="string")
     assert r
 
 def test_custom_info():
