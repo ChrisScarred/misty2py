@@ -67,18 +67,15 @@ class Misty:
         r = self.actions.perform_action(action_name, string, dct, data_method)
         return r
 
-    def get_info(self, info_name: str) -> dict:
+    def get_info(self, info_name: str, params: dict = {}) -> dict:
         """Obtains information from Misty.
 
-        Parameters
-        ----------
-        info_name : str
-            The information keyword specifying which kind of information to retrieve.
+        Args:
+            info_name (str): The information keyword specifying which kind of information to retrieve.
+            params (dict): dict of parameter name and parameter value. Defaults to {}.
 
-        Returns
-        -------
-        dict
-            The requested information in the form of a json dictionary.
+        Returns:
+            dict: The requested information in the form of a json dictionary.
         """
-        r = self.infos.get_info(info_name)
+        r = self.infos.get_info(info_name, params)
         return r

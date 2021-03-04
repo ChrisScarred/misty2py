@@ -1,3 +1,5 @@
 {
-    "blink_settings": "api/blink/settings"
+    "blink_settings": "api/blink/settings",
+    "hazards_settings": "api/hazards/settings",
+    "audio_file": "api/audio"
 }

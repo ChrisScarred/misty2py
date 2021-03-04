@@ -28,7 +28,8 @@ misty_robot = Misty("0.0.0.0")
         - `data_method` - `"string"` if the data is passed as a data shrotcut, `"dict"` if the data is passed as a dictionary, defaults to `"dict"`
 
 - use method `get_info` to tell Misty to **return information:**
-    - takes a string argument corresponding to the information keyword
+    - the first string argument is the information keyword, other optional arguments are:
+        - `params` - a dictionary of parameter name and parameter value, defaults to `{}`.
     
 ### Supported action keywords
 | keyword | endpoint  | data format                                                                                                                  | explanation                 |

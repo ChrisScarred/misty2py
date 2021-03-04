@@ -3,7 +3,7 @@
 import requests
 import json
 from os import path
-
+from urllib.parse import urlencode
 
 this_directory = path.abspath(path.dirname(__file__))
 INFOS_JSON = str(path.join(this_directory, "allowed_infos.json"))
@@ -52,29 +52,37 @@ class Get():
             The request response.
         """
         r = requests.get('http://%s/%s' % (self.ip, endpoint))
-        return r.json()
+        try:
+            return r.json()
+        except:
+            return {'status' : 'Success', 'content' : r.content}
 
 
 class Info(Get):
     """A class representing an information request from Misty. A subclass of Get().
     """
 
-    def get_info(self, info_name: str) -> dict:
+    def get_info(self, info_name: str, params: dict = {}) -> dict:
         """Sends an information request to Misty.
 
-        Parameters
-        ----------
-        info_name : str
-            The information keyword specifying which information is requested.
+        Args:
+            info_name (str): The information keyword specifying which information is requested.
+            params (dict): dict of parameter name and parameter value. Defaults to {}.
 
-        Returns
-        -------
-        dict
-            Misty's response.
+        Returns:
+            dict: Misty's response.
         """
         
         if not info_name in self.allowed_infos.keys():
             r = {"result" : "Fail"}
         else:
-            r = super().get_info(self.allowed_infos[info_name])
+            endpoint = self.allowed_infos[info_name]
+
+            if len(params) > 0:
+                endpoint += "?"
+                query_string = urlencode(params)
+                endpoint += query_string
+                print(endpoint)
+
+            r = super().get_info(endpoint)
         return r

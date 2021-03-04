@@ -30,11 +30,11 @@ def test_basic_action_dict_method():
         "blue": "40"
     }
     r = misty_robot.perform_action('led', dct=colours, data_method="dict")
-    assert r
+    assert r['status'] == 'Success'
 
 def test_basic_action_string_method():
     r = misty_robot.perform_action('led', string="led_off", data_method="string")
-    assert r
+    assert r['status'] == 'Success'
 
 def test_basic_info():
     r = misty_robot.get_info('blink_settings')
@@ -45,11 +45,11 @@ def test_custom_action_dict_method():
         "FileName": "s_Amazement.wav"
     }
     r = misty_robot.perform_action('audio_play', dct=colours, data_method="dict")
-    assert r
+    assert r['status'] == 'Success'
 
 def test_custom_action_string_method():
     r = misty_robot.perform_action('audio_play', string="song", data_method="string")
-    assert r
+    assert r['status'] == 'Success'
 
 def test_custom_info():
     r = misty_robot.get_info('hazards_settings')

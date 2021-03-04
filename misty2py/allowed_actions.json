@@ -2,5 +2,9 @@
     "led": {
         "endpoint": "api/led",
         "method": "post"
+    },
+    "audio_play": {
+        "endpoint": "api/audio/play",
+        "method": "post"
     }
 }
