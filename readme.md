@@ -17,7 +17,7 @@ This can be done comfortably from Python by employing following concepts:
 from misty2py.robot import Misty
 misty_robot = Misty("0.0.0.0")
 ```
-- substitute `"0.0.0.0"` by the IP address of your Misty.
+- substitute `"0.0.0.0"` with the IP address of your Misty.
 - optional parameters can be used to pass custom keywords and shortcuts:
     - `custom_info` takes custom information keywords in the form of a dictionary with keys being the keywords and values being the API endpoints.
     - `custom_actions` takes custom actions keywords in the form of a dictionary with keys being the keywords and values being the API endpoints.
