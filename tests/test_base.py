@@ -54,3 +54,7 @@ def test_custom_action_string_method():
 def test_custom_info():
     r = misty_robot.get_info('hazards_settings')
     assert r['status'] == 'Success'
+
+def test_query_params()
+    r = misty_robot.get_info("audio_file", {"FileName" : "s_Amazement.wav", "base64" : "false"})
+    assert r['content'][0:10] == b'RIFF$\x07\x06\x00WA'
