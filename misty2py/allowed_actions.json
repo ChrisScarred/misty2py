@@ -3,19 +3,43 @@
         "endpoint": "api/led",
         "method": "post"
     },
+    "audio_upload": {
+        "endpoint": "api/audio",
+        "method": "post"
+    },
     "audio_play": {
         "endpoint": "api/audio/play",
         "method": "post"
     },
-    "delete_audio": {
+    "audio_delete": {
         "endpoint": "api/audio",
         "method": "delete"
     },
-    "delete_image": {
+    "image_upload": {
+        "endpoint": "api/images",
+        "method": "post"
+    },
+    "image_display": {
+        "endpoint": "api/images/display",
+        "method": "post"
+    },
+    "image_delete": {
         "endpoint": "api/images",
         "method": "delete"
     },
-    "delete_video": {
+    "text_display": {
+        "endpoint": "api/text/display",
+        "method": "post"
+    },
+    "video_upload": {
+        "endpoint": "api/videos",
+        "method": "post"
+    },
+    "video_display": {
+        "endpoint": "api/videos/display",
+        "method": "post"
+    },
+    "video_delete": {
         "endpoint": "api/videos",
         "method": "delete"
     },
@@ -42,5 +66,17 @@
     "delete_wifi": {
         "endpoint": "api/networks",
         "method": "delete"
+    },
+    "write_serial": {
+        "endpoint": "api/serial",
+        "method": "post"
+    },
+    "event_listener": {
+        "endpoint": "api/skills/event",
+        "method": "post"
+    },
+    "website_display": {
+        "endpoint": "api/webviews/display",
+        "method": "post"
     }
 }
