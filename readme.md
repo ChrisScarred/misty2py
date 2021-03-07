@@ -30,16 +30,56 @@ misty_robot = Misty("0.0.0.0")
 - use method `get_info` to tell Misty to **return information:**
     - the first string argument is the information keyword, other optional arguments are:
         - `params` - a dictionary of parameter name and parameter value, defaults to `{}`.
-    
+
+### Supported information keywords
+|     ***name***                |     ***endpoint***             |     ***parameters*** |     ***purpose***                                                                                                                               |
+|-------------------------------|--------------------------------|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+|     **audio_file**            |     api/audio                  |     FileName         |     obtains the specified audio file                                                                                                            |
+| **audio_list**                | api/audio/list                 | -                    | obtains the list of audio files                                                                                                                 |
+| **audio_status**              | api/services/audio             | -                    | obtains the audio status                                                                                                                        |
+|     **av_status**             |     api/services/avstreaming   |     -                |     obtains the audiovideo status                                                                                                               |
+| **battery_status**            | api/battery                    | -                    | obtains the battery status                                                                                                                      |
+| **blink_settings**            | api/blink/settings             | -                    | obtains the blink settings                                                                                                                      |
+| **camera_settings**           | api/camera                     | -                    | obtains the camera settings                                                                                                                     |
+|     **camera_status**         |     api/services/camera        |     -                |     obtains the camera status                                                                                                                   |
+| **current_map_id**            | api/slam/map/current           | -                    | obtains the id of the current map                                                                                                               |
+| **device**                    | api/device                     | -                    | obtains information about the robot's OS, hardware, networking and   sensors                                                                    |
+|     **faces_known**           |     api/faces                  |     -                |     obtains the list of known faces                                                                                                             |
+|     **hazards_settings**      |     api/hazards/settings       |     -                |     obtains the hazard settings                                                                                                                 |
+|     **help**                  |     api/help                   |     command          |     obtains the help guide for usable commands if   parameter not supplied or obtains the help guide for the specified command if   supplied    |
+| **image_file**                | api/images                     | FileName             | obtains the specified image                                                                                                                     |
+|     **image_list**            |     api/images/list            |     -                |     obtains the list of images                                                                                                                  |
+| **log**                       | api/logs                       | -                    | obtains the logs                                                                                                                                |
+|     **log_level**             |     api/logs/level             |     -                |     obtains the log level                                                                                                                       |
+|     **map_file**              |     api/slam/map               |     FileName         |     obtains the specified map file                                                                                                              |
+|     **map_id_list**           |     api/slam/map/ids           |     -                |     obtains the list of map ids                                                                                                                 |
+| **picture_depth**             | api/cameras/depth              | -                    | obtains a picture from the depth camera                                                                                                         |
+|     **picture_fisheye**       |     api/cameras/fisheye        |     -                |     obtains a picture from the fisheye camera                                                                                                   |
+| **picture_rgb**               | api/cameras/rgb                | -                    | obtains a picture from the rgb camera                                                                                                           |
+|     **recording_file**        |     api/videos/recordings      |     FileName         |     obtains the specified recording file                                                                                                        |
+| **recording_list**            | api/videos/recordings/list     | -                    | obtains the list of recordings                                                                                                                  |
+| **sensor_values**             | api/serial                     | -                    | obtains the current sensor values                                                                                                               |
+|     **skills_known**          |     api/skills                 |     -                |     obtains the list of known skills                                                                                                            |
+| **skills_running**            | api/skills/running             | -                    | obtains the list of running skills                                                                                                              |
+| **slam_diagnostics**          | api/slam/diagnostics           | -                    | obtains the diagnostic information about the navigation system                                                                                  |
+|     **slam_enabled**          |     api/services/slam          |     -                |     checks whether the navigation system is enabled                                                                                             |
+| **slam_infrared_settings**    | api/slam/settings/ir           | -                    | obtains the navigation settings for the infrared camera                                                                                         |
+|     **slam_path**             |     api/slam/path              |     x, y             |     obtains the path to specified coordinates                                                                                                   |
+| **slam_status**               | api/slam/status                | -                    | obtains the value representing the current status and activity of the   navigation system                                                       |
+|     **slam_visible_settings** |     api/slam/settings/visible  |     -                |     obtains the navigation settings for the fisheye   camera                                                                                    |
+| **update_available**          | api/system/updates             | -                    | checks whether a system update is available                                                                                                     |
+|     **update_settings**       |     api/system/update/settings |     -                |     obtains the update settings                                                                                                                 |
+| **video_file**                | api/videos                     | FileName             | obtains the specified video file                                                                                                                |
+|     **video_list**            |     api/videos/list            |     -                |     obtains the list of videos uploaded to Misty                                                                                                |
+| **websocket_version**         | api/websocket/version          | -                    | obtains the version of websocket                                                                                                                |
+|     **websockets**            |     api/websockets             |     -                |     obtains the list of websockets                                                                                                              |
+| **wifis_available**           | api/networks/scan              | -                    | obtains the list of available wifis                                                                                                             |
+|     **wifis_saved**           |     api/networks               |     -                |     obtains the list of saved wifis                                                                                                             |
+
 ### Supported action keywords
 | keyword | endpoint  | data format                                                                                                                  | explanation                 |
 |---------|-----------|------------------------------------------------------------------------------------------------------------------------------|-----------------------------|
 | `led`   | `api/led` | `{"red" : "red_int_val", "green" : "green_int_val", "blue" : "blue_int_val"}` with values being in range 0-255 (including)   | changes the chest LED light |
-
-### Supported information keywords
-| keyword          | endpoint             | explanation            |
-|------------------|----------------------|------------------------|
-| `blink_settings` | `api/blink/settings` | returns blink settings |
 
 ### Supported data shortcuts
 | shortcut  | dictionary                             | explanation   |
