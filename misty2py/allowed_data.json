@@ -4,6 +4,71 @@
         "green": "0",
         "blue": "0"
     },
+    "white_light": {
+        "red": "255",
+        "green": "255",
+        "blue": "255"
+    },
+    "red_light": {
+        "red": "255",
+        "green": "0",
+        "blue": "0"
+    },
+    "green_light": {
+        "red": "0",
+        "green": "255",
+        "blue": "0"
+    },
+    "blue_light": {
+        "red": "0",
+        "green": "0",
+        "blue": "255"
+    },
+    "yellow_light": {
+        "red": "255",
+        "green": "255",
+        "blue": "0"
+    },
+    "cyan_light": {
+        "red": "0",
+        "green": "255",
+        "blue": "255"
+    },
+    "magenta_light": {
+        "red": "255",
+        "green": "0",
+        "blue": "255"
+    },
+    "orange_light": {
+        "red": "255",
+        "green": "125",
+        "blue": "0"
+    },
+    "lime_light": {
+        "red": "125",
+        "green": "255",
+        "blue": "0"
+    },
+    "aqua_light": {
+        "red": "0",
+        "green": "255",
+        "blue": "125"
+    },
+    "azure_light": {
+        "red": "0",
+        "green": "125",
+        "blue": "255"
+    },
+    "violet_light": {
+        "red": "125",
+        "green": "0",
+        "blue": "255"
+    },
+    "pink_light": {
+        "red": "255",
+        "green": "0",
+        "blue": "125"
+    },
     "amazement": {
         "FileName": "s_Amazement.wav"
     }

@@ -2,7 +2,7 @@
 """
 from misty2py.information import *
 from misty2py.action import *
-
+from misty2py.utils import *
 
 class Misty:
     """A class representing a Misty robot.
@@ -45,26 +45,33 @@ class Misty:
         """
         return "A Misty II robot with IP address %s" % self.ip
 
-    def perform_action(self, action_name: str, string = "", dct = {}, data_method = "dict") -> bool:
+    def perform_action(self, action_name: str, data = {}) -> bool:
         """Sends Misty a request to perform an action.
 
         Parameters
         ----------
         action_name : str
             The keyword specifying the action to perform.
-        string : str, optional
-            The data to send in the request body in the form of a data shortcut, by default ""
-        dct : dict, optional
-            The data to send in the request body in the form of a json dictionary, by default {}
-        method : str, optional
-            "dict" if supplying data as a json dictionary, "string" if suplying data as a data shortcut, by default "dict"
+        data : str or dict, optional
+            The data to send in the request body in the form of a data shortcut or a json dictionary, by default {}
 
         Returns
         -------
-        bool
-            Successfulness of the action request.
+        dict
+            response from the API
         """
-        r = self.actions.perform_action(action_name, string, dct, data_method)
+        if action_name == "led_trans" and isinstance(data, dict) and len(data)>=2 and len(data)<=4:
+            try:
+                data = construct_transition_dict(data, self.actions.allowed_data)
+            except:
+                return {"result" : "Failed", "message" : "Data not in correct format."}
+
+        data_method = ""
+        if isinstance(data, dict):
+            data_method = "dict"
+        else:
+            data_method = "string"
+        r = self.actions.perform_action(action_name, data, data_method)
         return r
 
     def get_info(self, info_name: str, params: dict = {}) -> dict:

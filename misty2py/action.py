@@ -79,37 +79,37 @@ class Action(Post):
     """A class representing an action request for Misty. A subclass of Post().
     """
 
-    def perform_action(self, action_name: str, string : str, dct : dict, data_method : str) -> bool:
+    def perform_action(self, action_name: str, data, data_method : str) -> bool:
         """Sends an action request to Misty.
 
         Parameters
         ----------
         action_name : str
             The action keyword specifying which action is requested.
-        string : str
-            The data shortcut representing the data supplied in the body of the request.
-        dct : dict
-            The json dictionary to be supplied in the body of the request.
+        data : str or dict
+            The data shortcut representing the data supplied in the body of the request or the json dictionary to be supplied in the body of the request.
         method : str
             "dict" if the data is supplied as a json dictionary, "string" if the data is supplied as a data shortcut.
 
         Returns
         -------
-        bool
-            Whether or not the action request was successful.
+        dict
+            response from the API
         """
-
+        r = ""
         if not action_name in self.allowed_actions.keys():
             r = {"result" : "Failed", "message" : "Command `%s` not supported." % action_name}
         else:
             if data_method == "dict":
                 try:
-                    r = super().perform_action(self.allowed_actions[action_name]["endpoint"], dct, request_method=self.allowed_actions[action_name]["method"])
+                    r = super().perform_action(self.allowed_actions[action_name]["endpoint"], data, request_method=self.allowed_actions[action_name]["method"])
                 except:
                     r = {"result" : "Failed", "message" : "Unknown error - perhaps your Misty edition does not support this endpoint?"}
-            elif data_method == "string" and string in self.allowed_data:
+            elif data_method == "string" and data in self.allowed_data:
                 try:
-                    r = super().perform_action(self.allowed_actions[action_name]["endpoint"], self.allowed_data[string], request_method=self.allowed_actions[action_name]["method"])
+                    r = super().perform_action(self.allowed_actions[action_name]["endpoint"], self.allowed_data[data], request_method=self.allowed_actions[action_name]["method"])
                 except:
                     r = {"result" : "Failed", "message" : "Unknown error - perhaps your Misty edition does not support this endpoint?"}
+            else:
+                r = {"result" : "Failed", "message" : "Data shortcut `%s` not supported." % data}
         return r
