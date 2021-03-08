@@ -1,5 +1,7 @@
 """Utility functions for misty2py.
 """
+import base64
+
 
 def rgb(red: int, green: int, blue: int) -> dict:
     """Returns rgb dictionary from rgb values.
@@ -58,3 +60,18 @@ def construct_transition_dict(data: dict, allowed_data: dict) -> dict:
         "TimeMS": time
     }
     return dct
+
+def file_to_base64_string(fname: str) -> str:
+    """Encodes a file into base64 encoding and into utf-8 string from the encoding.
+
+    Useful for uploading files to Misty.
+
+    Args:
+        fname (str): file path
+
+    Returns:
+        str: file as base64 string
+    """
+    data = open(fname, "rb").read()
+    encoded = base64.b64encode(data)
+    return encoded.decode("utf-8")

@@ -7,7 +7,7 @@
         "endpoint": "api/led/transition",
         "method": "post"
     },
-    "led_settings": {
+    "notification_settings": {
         "endpoint": "api/notification/settings",
         "method": "post"
     },

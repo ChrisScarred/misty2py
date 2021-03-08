@@ -3,7 +3,7 @@
 import requests
 import json
 from os import path
-
+import sys
 
 this_directory = path.abspath(path.dirname(__file__))
 ACTIONS_JSON = str(path.join(this_directory, "allowed_actions.json"))
@@ -86,12 +86,12 @@ class Action(Post):
                 try:
                     return super().perform_action(self.allowed_actions[action_name]["endpoint"], data, request_method=self.allowed_actions[action_name]["method"])
                 except:
-                    return {"result" : "Failed", "message" : "Unknown error - perhaps your Misty edition does not support this endpoint?"}
+                    return {"result" : "Failed", "message" : "Error: %s." %  sys.exc_info()[1]}
             elif data_method == "string" and data in self.allowed_data:
                 try:
                     return super().perform_action(self.allowed_actions[action_name]["endpoint"], self.allowed_data[data], request_method=self.allowed_actions[action_name]["method"])
                 except:
-                    return {"result" : "Failed", "message" : "Unknown error - perhaps your Misty edition does not support this endpoint?"}
+                    return {"result" : "Failed", "message" : "Error: %s." %  sys.exc_info()[1]}
             else:
                 return {"result" : "Failed", "message" : "Data shortcut `%s` not supported." % data}
         
