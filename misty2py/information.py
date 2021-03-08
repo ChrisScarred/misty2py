@@ -11,24 +11,19 @@ INFOS_JSON = str(path.join(this_directory, "allowed_infos.json"))
 class Get():
     """A class representing the GET url request method.
 
-    Attributes
-    ----------
-    ip : str
-        The IP address where the requests are sent
-    allowed_infos : dict
-        The dictionary of information keywords matching to the Misty's API endpoints.
+    Attributes:
+        ip (str): The IP address where the requests are sent
+        allowed_infos (dict): The dictionary of information keywords matching to the Misty's API endpoints.
     """
 
     def __init__(self, ip : str, custom_allowed_infos = {}) -> None:
         """Initialises a Get object.
 
-        Parameters
-        ----------
-        ip : str
-            The IP address where the requests are sent
-        custom_allowed_infos : str, optional
-            The dictionary of custom information keywords, by default {}
+        Args:
+            ip (str): The IP address where the requests are sent.
+            custom_allowed_infos (dict, optional): The dictionary of custom information keywords. Defaults to {}.
         """
+
         self.ip = ip
 
         allowed_infos = custom_allowed_infos
@@ -41,16 +36,13 @@ class Get():
     def get_info(self, endpoint : str) -> dict:
         """Sends a GET request.
 
-        Parameters
-        ----------
-        endpoint : str
-            The API endpoint to which the request is sent.
+        Args:
+            endpoint (str): The API endpoint to which the request is sent.
 
-        Returns
-        -------
-        dict
-            The request response.
+        Returns:
+            dict: The request response.
         """
+
         r = requests.get('http://%s/%s' % (self.ip, endpoint))
         try:
             return r.json()

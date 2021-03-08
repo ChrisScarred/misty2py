@@ -1,3 +1,28 @@
+"""Utility functions for misty2py.
+"""
+
+def rgb(red: int, green: int, blue: int) -> dict:
+    """Returns rgb dictionary from rgb values.
+
+    Args:
+        red (int): red value (0-255 including)
+        green (int): green value (0-255 including)
+        blue (int): blue value (0-255 including)
+
+    Returns:
+        dict: a dictionary in the form led requires.
+    """
+
+    assert red >= 0 and red <=255, "red value must be between 0 and 255 (bounds included)"
+    assert green >= 0 and green <=255, "green value must be between 0 and 255 (bounds included)"
+    assert blue >= 0 and blue <=255, "blue value must be between 0 and 255 (bounds included)"
+
+    return {
+        "red": red,
+        "green": green,
+        "blue": blue
+    }
+
 def construct_transition_dict(data: dict, allowed_data: dict) -> dict:
     """Constructs input to led_trans action from a dict of two colours data dictionaries or shortcuts (under keys col1, col2) and optionally transition time (key time) and transition style (key transition).
 
@@ -9,6 +34,7 @@ def construct_transition_dict(data: dict, allowed_data: dict) -> dict:
     Returns:
         dict: a dictionary in the form that led_trans requires.
     """
+    
     col1 = data['col1']
     if isinstance(col1, str):
         col1 = allowed_data[col1]
