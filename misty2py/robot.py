@@ -3,9 +3,8 @@
 from misty2py.information import *
 from misty2py.action import *
 from misty2py.utils import *
-# from misty2py.socket import *
-import websockets
-import asyncio
+from misty2py.socket import *
+
 
 class Misty:
     """A class representing a Misty robot.
@@ -18,6 +17,8 @@ class Misty:
         The object of Info class that belongs to this Misty.
     actions : Action()
         The object of Action class that belongs to this Misty.
+    websockets : dict
+        A dictionary of active websocket subscriptions (keys being the event name, values the Socket() object).
     """
 
     def __init__(self, ip: str, custom_info={}, custom_actions={}, custom_data={}) -> None:
@@ -37,7 +38,7 @@ class Misty:
         self.ip = ip
         self.infos = Info(ip, custom_allowed_infos=custom_info)
         self.actions = Action(ip, custom_allowed_actions=custom_actions, custom_allowed_data=custom_data)
-        self.websocket = None
+        self.websockets = {}
 
     def __str__(self) -> str:
         """Transforms a Misty() object into a string.
@@ -91,34 +92,43 @@ class Misty:
         r = self.infos.get_info(info_name, params)
         return r
 
-    """    
-    def subscribe(self, value = None, debounce = 0):
-        if self.websocket is None:
-            self.websocket = Socket(self.ip, "SerialMessage", value=value, debounce = debounce)                
-    
-    def unsubscribe(self):
-        if self.websocket is not None:
-            self.websocket.on_close(self.websocket.websocket)
-        self.websocket = None
-    """
+    def subscribe_websocket(self, type_str, event_name = "event", return_property = None, debounce = 0, len = 10):
+        try:
+            s = Socket(self.ip, type_str, event_name, return_property, debounce, len)
+        except:
+            return {"result" : "Failed", "message" : "Unknown error occurred."}
 
-    def websocket_data(self, type_str, event_name = "event", return_property = None):
-        asyncio.get_event_loop().run_until_complete(self.get_websocket_data(type_str, event_name, return_property))
-    
-    async def get_websocket_data(self, type_str, event_name, return_property):
-        data = {}
-        uri = "ws://%s/pubsub" % self.ip
-        async with websockets.connect(uri) as websocket:
-            msg = {
-                "Operation" : "subscribe",
-                "Type" : type_str,
-                "DebounceMs" : 0,
-                "EventName" : event_name,
-                "ReturnProperty": return_property
-            }
-            msg_str = json.dumps(msg, separators=(',', ':'))
-            await websocket.send(msg_str)
-            await websocket.recv()
-            await websocket.send("")
-            data = await websocket.recv()
-        print(data)
+        self.websockets[event_name] = s
+        return {"result" : "Success", "message" : "Subscribed to the websocket `%s`" % type_str}
+
+    def get_websocket_data(self, event_name, data_type = "data"):
+        if event_name in self.websockets.keys():
+            if data_type == "data":
+                try:
+                    return {"result" : "Success", "message" : self.websockets[event_name].data}
+                except:
+                    return {"result" : "Failed", "message" : "Unknown error occurred."}
+
+            elif data_type == "log":
+                try:
+                    return {"result" : "Success", "message" : self.websockets[event_name].log}
+                except:
+                    return {"result" : "Failed", "message" : "Unknown error occurred."}
+
+            else:
+                return {"result" : "Failed", "message" : "`%s` is not a valid data type for websocket subscriptions." % data_type}
+
+        else:
+            return {"result" : "Failed", "message" : "Websocket `%s` is not subscribed to." % event_name}
+
+    def unsubscribe_websocket(self, event_name):
+        if event_name in self.websockets.keys():
+            try:
+                self.websockets[event_name].unsubscribe()
+                mes = {"result" : "Success", "message" : "Websocket `%s` unsubscribed. Log: %s" % (event_name, str(self.websockets[event_name].log))}
+            except:
+                mes = {"result" : "Failed", "message" : "Unknown error occurred."}
+            self.websockets.pop(event_name)
+            return mes
+        else:
+            return {"result" : "Failed", "message" : "Websocket `%s` is not subscribed to." % event_name}
