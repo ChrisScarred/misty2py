@@ -3,6 +3,9 @@
 from misty2py.information import *
 from misty2py.action import *
 from misty2py.utils import *
+# from misty2py.socket import *
+import websockets
+import asyncio
 
 class Misty:
     """A class representing a Misty robot.
@@ -34,7 +37,8 @@ class Misty:
         self.ip = ip
         self.infos = Info(ip, custom_allowed_infos=custom_info)
         self.actions = Action(ip, custom_allowed_actions=custom_actions, custom_allowed_data=custom_data)
-        
+        self.websocket = None
+
     def __str__(self) -> str:
         """Transforms a Misty() object into a string.
 
@@ -86,3 +90,35 @@ class Misty:
         """
         r = self.infos.get_info(info_name, params)
         return r
+
+    """    
+    def subscribe(self, value = None, debounce = 0):
+        if self.websocket is None:
+            self.websocket = Socket(self.ip, "SerialMessage", value=value, debounce = debounce)                
+    
+    def unsubscribe(self):
+        if self.websocket is not None:
+            self.websocket.on_close(self.websocket.websocket)
+        self.websocket = None
+    """
+
+    def websocket_data(self, type_str, event_name = "event", return_property = None):
+        asyncio.get_event_loop().run_until_complete(self.get_websocket_data(type_str, event_name, return_property))
+    
+    async def get_websocket_data(self, type_str, event_name, return_property):
+        data = {}
+        uri = "ws://%s/pubsub" % self.ip
+        async with websockets.connect(uri) as websocket:
+            msg = {
+                "Operation" : "subscribe",
+                "Type" : type_str,
+                "DebounceMs" : 0,
+                "EventName" : event_name,
+                "ReturnProperty": return_property
+            }
+            msg_str = json.dumps(msg, separators=(',', ':'))
+            await websocket.send(msg_str)
+            await websocket.recv()
+            await websocket.send("")
+            data = await websocket.recv()
+        print(data)
