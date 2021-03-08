@@ -140,3 +140,35 @@ misty_robot = Misty("0.0.0.0",
     custom_actions=custom_allowed_actions, 
     custom_data=custom_allowed_data)
 ```
+
+### Event types
+To obtain event data in Misty's framework, it is required to **subscribe** to an event type. Misty's websocket server then streams data to the websocket client in a deamon thread. To access this data, it has to be accessed from another thread by the `get_event_data` method. When data is no longer required to be streamed to the client, an event type can be **unsubscribed**.
+
+#### Subscription
+Given `m` is an instance of Misty class, one can subscribe to an event type with following code:
+```
+m.subscribe_event_type(type_str_value, event_name = event_name_value, return_property = return_property_value, debounce = debounce_value, len_data_entries = len_data_entries_value)
+```
+where:
+- `type_str_value` - required; event type string as denoted in [Event Types Docs](https://docs.mistyrobotics.com/misty-ii/robot/sensor-data/ "Misty Robotics Event Types").
+- `event_name_value` - optional; a unique name for this subscription. Defaults to `event`.
+- `return_property_value` - optional; the property to return or `None` if all properties should be returned. Defaults to `None`.
+- `debounce_value` - optional; the interval at which new information is sent in ms. Defaults to `250`.
+- `len_data_entries` - optional; the maximum number of data entries to keep. Discards in fifo style (first in, first out). Defaults to `10`.
+
+`subscribe_event_type` returns a dictionary with keys `"result"` (value `"Success"` or `"Failed"`) and `"message"` with details.
+
+#### Obtaining data
+Given `m` is an instance of Misty class and `event_name_value` is a name of a subscribed event, its data can be obtained by: `m.get_event_data(event_name_value)`.
+
+`get_event_data` returns a dictionary with keys `"result"` (value `"Success"` or `"Failed"`) and `"message"` with the data if successful or error details otherwise.
+
+#### Obtaining logs
+Given `m` is an instance of Misty class and `event_name_value` is a name of a subscribed event, its logs can be obtained by: `m.get_event_log(event_name_value)`.
+
+`get_event_log` returns a dictionary with keys `"result"` (value `"Success"` or `"Failed"`) and `"message"` with the logs if successful or error details otherwise.
+
+#### Unsubscribing
+Given `m` is an instance of Misty class and `event_name_value` is a name of a subscribed event, `event_name_value` can be unsubscribed by: `m.unsubscribe_event_type(event_name_value)`.
+
+`unsubscribe_event_type` returns a dictionary with keys `"result"` (value `"Success"` or `"Failed"`) and `"message"` with the logs if successful or error details otherwise.
