@@ -3,5 +3,137 @@
         "red": "0",
         "green": "0",
         "blue": "0"
-    }
+    },
+    "white_light": {
+        "red": "255",
+        "green": "255",
+        "blue": "255"
+    },
+    "red_light": {
+        "red": "255",
+        "green": "0",
+        "blue": "0"
+    },
+    "green_light": {
+        "red": "0",
+        "green": "255",
+        "blue": "0"
+    },
+    "blue_light": {
+        "red": "0",
+        "green": "0",
+        "blue": "255"
+    },
+    "yellow_light": {
+        "red": "255",
+        "green": "255",
+        "blue": "0"
+    },
+    "cyan_light": {
+        "red": "0",
+        "green": "255",
+        "blue": "255"
+    },
+    "magenta_light": {
+        "red": "255",
+        "green": "0",
+        "blue": "255"
+    },
+    "orange_light": {
+        "red": "255",
+        "green": "125",
+        "blue": "0"
+    },
+    "lime_light": {
+        "red": "125",
+        "green": "255",
+        "blue": "0"
+    },
+    "aqua_light": {
+        "red": "0",
+        "green": "255",
+        "blue": "125"
+    },
+    "azure_light": {
+        "red": "0",
+        "green": "125",
+        "blue": "255"
+    },
+    "violet_light": {
+        "red": "125",
+        "green": "0",
+        "blue": "255"
+    },
+    "pink_light": {
+        "red": "255",
+        "green": "0",
+        "blue": "125"
+    },
+    "low_volume": {
+        "Volume": "5"
+    },
+    "sound_acceptance": { "FileName": "s_Acceptance.wav" },
+    "sound_amazement_1": { "FileName": "s_Amazement.wav" },
+    "sound_amazement_2": { "FileName": "s_Amazement2.wav" },
+    "sound_anger_1": { "FileName": "s_Anger.wav" },
+    "sound_anger_2": { "FileName": "s_Anger2.wav" },
+    "sound_anger_3": { "FileName": "s_Anger3.wav" },
+    "sound_anger_4": { "FileName": "s_Anger4.wav" },
+    "sound_annoyance_1": { "FileName": "s_Annoyance.wav" },
+    "sound_annoyance_2": { "FileName": "s_Annoyance2.wav" },
+    "sound_annoyance_3": { "FileName": "s_Annoyance3.wav" },
+    "sound_annoyance_4": { "FileName": "s_Annoyance4.wav" },
+    "sound_awe_1": { "FileName": "s_Awe.wav" },
+    "sound_awe_2": { "FileName": "s_Awe2.wav" },
+    "sound_awe_3": { "FileName": "s_Awe3.wav" },
+    "sound_boredom": { "FileName": "s_Boredom.wav" },
+    "sound_disapproval": { "FileName": "s_Disapproval.wav" },
+    "sound_disgust_1": { "FileName": "s_Disgust.wav" },
+    "sound_disgust_2": { "FileName": "s_Disgust2.wav" },
+    "sound_disgust_3": { "FileName": "s_Disgust3.wav" },
+    "sound_disoriented_1": { "FileName": "s_DisorientedConfused.wav" },
+    "sound_disoriented_2": { "FileName": "s_DisorientedConfused2.wav" },
+    "sound_disoriented_3": { "FileName": "s_DisorientedConfused3.wav" },
+    "sound_disoriented_4": { "FileName": "s_DisorientedConfused4.wav" },
+    "sound_disoriented_5": { "FileName": "s_DisorientedConfused5.wav" },
+    "sound_disoriented_6": { "FileName": "s_DisorientedConfused6.wav" },
+    "sound_distraction": { "FileName": "s_Distraction.wav" },
+    "sound_ecstacy_1": { "FileName": "s_Ecstacy.wav" },
+    "sound_ecstacy_2": { "FileName": "s_Ecstacy2.wav" },
+    "sound_fear": { "FileName": "s_Fear.wav" },
+    "sound_grief_1": { "FileName": "s_Grief.wav" },
+    "sound_grief_2": { "FileName": "s_Grief2.wav" },
+    "sound_grief_3": { "FileName": "s_Grief3.wav" },
+    "sound_grief_4": { "FileName": "s_Grief4.wav" },
+    "sound_joy_1": { "FileName": "s_Joy.wav" },
+    "sound_joy_2": { "FileName": "s_Joy2.wav" },
+    "sound_joy_3": { "FileName": "s_Joy3.wav" },
+    "sound_joy_4": { "FileName": "s_Joy4.wav" },
+    "sound_loathing": { "FileName": "s_Loathing.wav" },
+    "sound_love": { "FileName": "s_Love.wav" },
+    "sound_phrase_bye_bye": { "FileName": "s_PhraseByeBye.wav" },
+    "sound_phrase_evil": { "FileName": "s_PhraseEvilAhHa.wav" },
+    "sound_phrase_hello": { "FileName": "s_PhraseHello.wav" },
+    "sound_phrase_no": { "FileName": "s_PhraseNoNoNo.wav" },
+    "sound_phrase_oopsy": { "FileName": "s_PhraseOopsy.wav" },
+    "sound_phrase_ow": { "FileName": "s_PhraseOwOwOw.wav" },
+    "sound_phrase_oww": { "FileName": "s_PhraseOwwww.wav" },
+    "sound_phrase_uh": { "FileName": "s_PhraseUhOh.wav" },
+    "sound_rage": { "FileName": "s_Rage.wav" },
+    "sound_sadness_1": { "FileName": "s_Sadness.wav" },
+    "sound_sadness_2": { "FileName": "s_Sadness2.wav" },
+    "sound_sadness_3": { "FileName": "s_Sadness3.wav" },
+    "sound_sadness_4": { "FileName": "s_Sadness4.wav" },
+    "sound_sadness_5": { "FileName": "s_Sadness5.wav" },
+    "sound_sadness_6": { "FileName": "s_Sadness6.wav" },
+    "sound_sadness_7": { "FileName": "s_Sadness7.wav" },
+    "sound_sleepy_1": { "FileName": "s_Sleepy.wav" },
+    "sound_sleepy_2": { "FileName": "s_Sleepy2.wav" },
+    "sound_sleepy_3": { "FileName": "s_Sleepy3.wav" },
+    "sound_sleepy_4": { "FileName": "s_Sleepy4.wav" },
+    "sound_sleepy_snore": { "FileName": "s_SleepySnore.wav" },
+    "sound_camera_shutter": { "FileName": "s_SystemCameraShutter.wav" },
+    "sound_failure": { "FileName": "s_SystemFailure.wav" },
+    "sound_success": { "FileName": "s_SystemSuccess.wav" },
+    "sound_wake": { "FileName": "s_SystemWakeWord.wav" }
 }

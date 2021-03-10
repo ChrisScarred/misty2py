@@ -1,3 +1,414 @@
 {
-    "led": "api/led"
+    "led": {
+        "endpoint": "api/led",
+        "method": "post"
+    },
+    "led_trans": {
+        "endpoint": "api/led/transition",
+        "method": "post"
+    },
+    "notification_settings": {
+        "endpoint": "api/notification/settings",
+        "method": "post"
+    },
+    "audio_upload": {
+        "endpoint": "api/audio",
+        "method": "post"
+    },
+    "audio_play": {
+        "endpoint": "api/audio/play",
+        "method": "post"
+    },
+    "audio_pause": {
+        "endpoint": "api/audio/pause",
+        "method": "post"
+    },
+    "audio_stop": {
+        "endpoint": "api/audio/stop",
+        "method": "post"
+    },
+    "audio_delete": {
+        "endpoint": "api/audio",
+        "method": "delete"
+    },
+    "audio_record_start": {
+        "endpoint": "api/audio/record/start",
+        "method": "post"
+    },
+    "audio_record_stop": {
+        "endpoint": "api/audio/record/stop",
+        "method": "post"
+    },
+    "audio_disable": {
+        "endpoint": "api/services/audio/disable",
+        "method": "post"
+    },
+    "audio_enable": {
+        "endpoint": "api/services/audio/enable",
+        "method": "post"
+    },
+    "image_upload": {
+        "endpoint": "api/images",
+        "method": "post"
+    },
+    "image_show": {
+        "endpoint": "api/images/display",
+        "method": "post"
+    },
+    "image_settings": {
+        "endpoint": "api/images/settings",
+        "method": "post"
+    },
+    "image_delete": {
+        "endpoint": "api/images",
+        "method": "delete"
+    },
+    "text_show": {
+        "endpoint": "api/text/display",
+        "method": "post"
+    },
+    "text_settings": {
+        "endpoint": "api/text/settings",
+        "method": "post"
+    },
+    "video_upload": {
+        "endpoint": "api/videos",
+        "method": "post"
+    },
+    "video_show": {
+        "endpoint": "api/videos/display",
+        "method": "post"
+    },
+    "video_settings": {
+        "endpoint": "api/videos/settings",
+        "method": "post"
+    },
+    "video_delete": {
+        "endpoint": "api/videos",
+        "method": "delete"
+    },
+    "blink_mapping_delete": {
+        "endpoint": "api/blink/images",
+        "method": "delete"
+    },
+    "slam_enable": {
+        "endpoint": "api/services/slam/enable",
+        "method": "post"
+    },
+    "slam_disable": {
+        "endpoint": "api/services/slam/disable",
+        "method": "post"
+    },
+    "slam_sensors_reset": {
+        "endpoint": "api/slam/reset",
+        "method": "post"
+    },
+    "slam_mapping_start": {
+        "endpoint": "api/slam/map/start",
+        "method": "post"
+    },
+    "slam_mapping_stop": {
+        "endpoint": "api/slam/map/stop",
+        "method": "post"
+    },
+    "slam_map_current": {
+        "endpoint": "api/slam/map/current",
+        "method": "post"
+    },
+    "slam_map_rename": {
+        "endpoint": "api/slam/map/rename",
+        "method": "post"
+    },
+    "slam_infrared_settings": {
+        "endpoint": "api/slam/settings/ir",
+        "method": "post"
+    },
+    "slam_visible_settings": {
+        "endpoint": "api/slam/settings/visible",
+        "method": "post"
+    },
+    "slam_map_delete": {
+        "endpoint": "api/slam/map",
+        "method": "delete"
+    },
+    "slam_docking_locate_start": {
+        "endpoint": "api/slam/docking/start",
+        "method": "post"
+    },
+    "slam_docking_locate_stop": {
+        "endpoint": "api/slam/docking/stop",
+        "method": "post"
+    },
+    "streaming_slam_start": {
+        "endpoint": "api/slam/streaming/start",
+        "method": "post"
+    },
+    "streaming_slam_stop": {
+        "endpoint": "api/slam/streaming/stop",
+        "method": "post"
+    },
+    "slam_track_start": {
+        "endpoint": "api/slam/track/start",
+        "method": "post"
+    },
+    "slam_track_stop": {
+        "endpoint": "api/slam/track/stop",
+        "method": "post"
+    },
+    "recording_start": {
+        "endpoint": "api/videos/recordings/start",
+        "method": "post"
+    },
+    "recording_stop": {
+        "endpoint": "api/videos/recordings/stop",
+        "method": "post"
+    },
+    "recording_rename": {
+        "endpoint": "api/videos/recordings/rename",
+        "method": "post"
+    },
+    "recording_delete": {
+        "endpoint": "api/videos/recordings",
+        "method": "delete"
+    },
+    "face_detection_start": {
+        "endpoint": "api/faces/detection/start",
+        "method": "post"
+    },
+    "face_detection_stop": {
+        "endpoint": "api/faces/detection/stop",
+        "method": "post"
+    },
+    "face_recognition_start": {
+        "endpoint": "api/faces/recognition/start",
+        "method": "post"
+    },
+    "face_recognition_stop": {
+        "endpoint": "api/faces/recognition/stop",
+        "method": "post"
+    },
+    "face_train_start": {
+        "endpoint": "api/faces/training/start",
+        "method": "post"
+    },
+    "face_train_cancel": {
+        "endpoint": "api/faces/training/cancel",
+        "method": "post"
+    },
+    "face_delete": {
+        "endpoint": "api/faces",
+        "method": "delete"
+    },
+    "skill_upload": {
+        "endpoint": "api/skills",
+        "method": "post"
+    },
+    "skill_start": {
+        "endpoint": "api/skills/start",
+        "method": "post"
+    },
+    "skills_reload": {
+        "endpoint": "api/skills/reload",
+        "method": "post"
+    },
+    "skill_load": {
+        "endpoint": "api/skills/load",
+        "method": "post"
+    },
+    "skill_cancel": {
+        "endpoint": "api/skills/cancel",
+        "method": "post"
+    },
+    "skill_delete": {
+        "endpoint": "api/skills",
+        "method": "delete"
+    },
+    "wifi_add": {
+        "endpoint": "api/networks/create",
+        "method": "post"
+    },
+    "wifi_connect": {
+        "endpoint": "api/networks",
+        "method": "post"
+    },
+    "wifi_delete": {
+        "endpoint": "api/networks",
+        "method": "delete"
+    },
+    "wifi_hotspot_start": {
+        "endpoint": "api/networks/hotspot/start",
+        "method": "post"
+    },
+    "wifi_hotspot_stop": {
+        "endpoint": "api/networks/hotspot/stop",
+        "method": "post"
+    },
+    "write_serial": {
+        "endpoint": "api/serial",
+        "method": "post"
+    },
+    "event_listener": {
+        "endpoint": "api/skills/event",
+        "method": "post"
+    },
+    "website_show": {
+        "endpoint": "api/webviews/display",
+        "method": "post"
+    },
+    "website_settings": {
+        "endpoint": "api/webviews/settings",
+        "method": "post"
+    },
+    "blink_on": {
+        "endpoint": "api/blink",
+        "method": "post"
+    },
+    "blink_settings": {
+        "endpoint": "api/blink/settings",
+        "method": "post"
+    },
+    "display_settings": {
+        "endpoint": "api/display/settings",
+        "method": "post"
+    },
+    "flashlight_on": {
+        "endpoint": "api/flashlight",
+        "method": "post"
+    },
+    "speak": {
+        "endpoint": "api/tts/speak",
+        "method": "post"
+    },
+    "speak_stop": {
+        "endpoint": "api/tts/stop",
+        "method": "post"
+    },
+    "speech_capture": {
+        "endpoint": "api/audio/speech/capture",
+        "method": "post"
+    },
+    "drive": {
+        "endpoint": "api/drive",
+        "method": "post"
+    },
+    "drive_arc": {
+        "endpoint": "api/drive/arc",
+        "method": "post"
+    },
+    "drive_heading": {
+        "endpoint": "api/drive/hdt",
+        "method": "post"
+    },
+    "drive_time": {
+        "endpoint": "api/drive/time",
+        "method": "post"
+    },
+    "drive_track": {
+        "endpoint": "api/drive/track",
+        "method": "post"
+    },
+    "drive_stop": {
+        "endpoint": "api/drive/stop",
+        "method": "post"
+    },
+    "drive_to_loc": {
+        "endpoint": "api/drive/coordinates",
+        "method": "post"
+    },
+    "drive_on_path": {
+        "endpoint": "api/drive/path",
+        "method": "post"
+    },
+    "halt": {
+        "endpoint": "api/halt",
+        "method": "post"
+    },
+    "arm_move": {
+        "endpoint": "api/arms",
+        "method": "post"
+    },
+    "arms_move": {
+        "endpoint": "api/arms/set",
+        "method": "post"
+    },
+    "head_move": {
+        "endpoint": "api/head",
+        "method": "post"
+    },
+    "hazard_settings": {
+        "endpoint": "api/hazard/updatebasesettings",
+        "method": "post"
+    },
+    "streaming_av_start": {
+        "endpoint": "api/avstreaming/start",
+        "method": "post"
+    },
+    "streaming_av_stop": {
+        "endpoint": "api/avstreaming/stop",
+        "method": "post"
+    },
+    "streaming_av_disable": {
+        "endpoint": "api/services/avstreaming/disable",
+        "method": "post"
+    },
+    "streaming_av_enable": {
+        "endpoint": "api/services/avstreaming/enable",
+        "method": "post"
+    },
+    "keyphrase_recognition_start": {
+        "endpoint": "api/audio/keyphrase/start",
+        "method": "post"
+    },
+    "keyphrase_recognition_stop": {
+        "endpoint": "api/audio/keyphrase/stop",
+        "method": "post"
+    },
+    "update_allow": {
+        "endpoint": "api/system/update/allow",
+        "method": "post"
+    },
+    "update_perform": {
+        "endpoint": "api/system/update",
+        "method": "post"
+    },
+    "update_perform_targeted": {
+        "endpoint": "api/system/update/component",
+        "method": "post"
+    },
+    "update_prevent": {
+        "endpoint": "api/system/update/prevent",
+        "method": "post"
+    },
+    "error_text_clear": {
+        "endpoint": "api/text/error/clear",
+        "method": "post"
+    },
+    "camera_disable": {
+        "endpoint": "api/services/camera/disable",
+        "method": "post"
+    },
+    "camera_enable": {
+        "endpoint": "api/services/camera/enable",
+        "method": "post"
+    },
+    "restart": {
+        "endpoint": "api/reboot",
+        "method": "post"
+    },
+    "volume_settings": {
+        "endpoint": "api/audio/volume",
+        "method": "post"
+    },
+    "logs_settings": {
+        "endpoint": "api/logs/level",
+        "method": "post"
+    },
+    "websocket_settings": {
+        "endpoint": "api/websocket/version",
+        "method": "post"
+    },
+    "external_request": {
+        "endpoint": "api/request",
+        "method": "post"
+    }
 }

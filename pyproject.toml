@@ -1,6 +1,34 @@
-[build-system]
-requires = [
-    "setuptools>=42",
-    "wheel"
+[tool.poetry]
+name = "misty2py"
+version = "1.0.0"
+description = "Misty II REST API wrapper"
+authors = ["Chris 'Scar(R)ed' Vajdik <scarred.chris@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/ChrisScarred/misty2py"
+repository = "https://github.com/ChrisScarred/misty2py"
+classifiers = [
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ]
+include = [
+    "LICENSE",
+    "changelog.md",
+    "misty2py/allowed_actions.json",
+    "misty2py/allowed_data.json",
+    "misty2py/allowed_infos.json",
 ]
-build-backend = "setuptools.build_meta"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+requests = "^2.25.1"
+websocket-client = "^0.58.0"
+
+[tool.poetry.dev-dependencies]
+black = "^20.8b1"
+pytest = "^6.2.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
