@@ -4,12 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## 0.0.2 - 10-03-2021
 ### Added
 - Support for custom defined action and information keywords.
 - Support for custom defined data shortcuts.
 - Unit tests to test the added features.
-- Support for all currently available Misty API endpoints for GET method.
+- Support for all currently available Misty API endpoints for GET, POST and DELETE methods.
+- Event types support.
 ### Changed
 - README to reflect support for custom definitions.
 - README to include documentation of supported information keywords.
