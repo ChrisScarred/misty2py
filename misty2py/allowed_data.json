@@ -70,7 +70,7 @@
         "blue": "125"
     },
     "low_volume": {
-        "Volume": 5
+        "Volume": "5"
     },
     "sound_acceptance": { "FileName": "s_Acceptance.wav" },
     "sound_amazement_1": { "FileName": "s_Amazement.wav" },

@@ -52,7 +52,7 @@ class Misty:
             try:
                 data = construct_transition_dict(data, self.actions.allowed_data)
             except:
-                return {"result" : "Failed", "message" : "Data not in correct format."}
+                return {"status" : "Failed", "message" : "Data not in correct format."}
 
         data_method = ""
         if isinstance(data, dict):
@@ -95,10 +95,10 @@ class Misty:
         try:
             s = EventType(self.ip, type_str, event_name, return_property, debounce, len_data_entries)
         except:
-            return {"result" : "Failed", "message" : "Unknown error occurred."}
+            return {"status" : "Failed", "message" : "Unknown error occurred."}
 
         self.event_types[event_name] = s
-        return {"result" : "Success", "message" : "Subscribed to event type `%s`" % type_str}
+        return {"status" : "Success", "message" : "Subscribed to event type `%s`" % type_str}
 
     def get_event_data(self, event_name : str) -> dict:
         """Obtains data from a subscribed event type.
@@ -112,12 +112,12 @@ class Misty:
 
         if event_name in self.event_types.keys():
             try:
-                return {"result" : "Success", "message" : self.event_types[event_name].data}
+                return {"status" : "Success", "message" : self.event_types[event_name].data}
             except:
-                return {"result" : "Failed", "message" : "Unknown error occurred."}
+                return {"status" : "Failed", "message" : "Unknown error occurred."}
 
         else:
-            return {"result" : "Failed", "message" : "Event type `%s` is not subscribed to." % event_name}
+            return {"status" : "Failed", "message" : "Event type `%s` is not subscribed to." % event_name}
 
     def get_event_log(self, event_name : str) -> dict:
         """Obtains the log from a subscribed event type.
@@ -131,12 +131,12 @@ class Misty:
 
         if event_name in self.event_types.keys():
             try:
-                return {"result" : "Success", "message" : self.event_types[event_name].log}
+                return {"status" : "Success", "message" : self.event_types[event_name].log}
             except:
-                return {"result" : "Failed", "message" : "Unknown error occurred."}
+                return {"status" : "Failed", "message" : "Unknown error occurred."}
 
         else:
-            return {"result" : "Failed", "message" : "Event type `%s` is not subscribed to." % event_name}
+            return {"status" : "Failed", "message" : "Event type `%s` is not subscribed to." % event_name}
 
 
     def unsubscribe_event_type(self, event_name : str) -> dict:
@@ -152,10 +152,10 @@ class Misty:
         if event_name in self.event_types.keys():
             try:
                 self.event_types[event_name].unsubscribe()
-                mes = {"result" : "Success", "message" : "Event type `%s` unsubscribed. Log: %s" % (event_name, str(self.event_types[event_name].log))}
+                mes = {"status" : "Success", "message" : "Event type `%s` unsubscribed. Log: %s" % (event_name, str(self.event_types[event_name].log))}
             except:
-                mes = {"result" : "Failed", "message" : "Unknown error occurred."}
+                mes = {"status" : "Failed", "message" : "Unknown error occurred."}
             self.event_types.pop(event_name)
             return mes
         else:
-            return {"result" : "Failed", "message" : "Event type `%s` is not subscribed to." % event_name}
+            return {"status" : "Failed", "message" : "Event type `%s` is not subscribed to." % event_name}

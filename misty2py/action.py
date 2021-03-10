@@ -80,18 +80,18 @@ class Action(Post):
         """
 
         if not action_name in self.allowed_actions.keys():
-            return {"result" : "Failed", "message" : "Command `%s` not supported." % action_name}
+            return {"status" : "Failed", "message" : "Command `%s` not supported." % action_name}
         else:
             if data_method == "dict":
                 try:
                     return super().perform_action(self.allowed_actions[action_name]["endpoint"], data, request_method=self.allowed_actions[action_name]["method"])
                 except:
-                    return {"result" : "Failed", "message" : "Error: %s." %  sys.exc_info()[1]}
+                    return {"status" : "Failed", "message" : "Error: %s." %  sys.exc_info()[1]}
             elif data_method == "string" and data in self.allowed_data:
                 try:
                     return super().perform_action(self.allowed_actions[action_name]["endpoint"], self.allowed_data[data], request_method=self.allowed_actions[action_name]["method"])
                 except:
-                    return {"result" : "Failed", "message" : "Error: %s." %  sys.exc_info()[1]}
+                    return {"status" : "Failed", "message" : "Error: %s." %  sys.exc_info()[1]}
             else:
-                return {"result" : "Failed", "message" : "Data shortcut `%s` not supported." % data}
+                return {"status" : "Failed", "message" : "Data shortcut `%s` not supported." % data}
         
