@@ -233,6 +233,51 @@ Given `event_name_value` is a name of a subscribed event, `event_name_value` can
 - `violet_light` for `{ "red": "125", "green": "0", "blue": "255" }`
 - `pink_light` for `{ "red": "255", "green": "0", "blue": "125" }`
 - `low_volume` for `{ "Volume": "5" }`
+- `image_admiration` for `{"FileName": "e_Admiration.jpg"}`
+- `image_aggressiveness` for `{"FileName": "e_Aggressiveness.jpg"}`
+- `image_amazement` for `{"FileName": "e_Amazement.jpg"}`
+- `image_anger` for `{"FileName": "e_Anger.jpg"}`
+- `image_concerned` for `{"FileName": "e_ApprehensionConcerned.jpg"}`
+- `image_contempt` for `{"FileName": "e_Contempt.jpg"}`
+- `image_content_left` for `{"FileName": "e_ContentLeft.jpg"}`
+- `image_content_right` for `{"FileName": "e_ContentRight.jpg"}`
+- `image_content_default` for `{"FileName": "e_DefaultContent.jpg"}`
+- `image_disgust` for `{"FileName": "e_Disgust.jpg"}`
+- `image_disoriented` for `{"FileName": "e_Disoriented.jpg"}`
+- `image_hilarious` for `{"FileName": "e_EcstacyHilarious.jpg"}`
+- `image_starry_eyed` for `{"FileName": "e_EcstacyStarryEyed.jpg"}`
+- `image_fear` for `{"FileName": "e_Fear.jpg"}`
+- `image_grief` for `{"FileName": "e_Grief.jpg"}`
+- `image_joy_1` for `{"FileName": "e_Joy.jpg"}`
+- `image_joy_2` for `{"FileName": "e_Joy2.jpg"}`
+- `image_goofy_1` for `{"FileName": "e_JoyGoofy.jpg"}`
+- `image_goofy_2` for `{"FileName": "e_JoyGoofy2.jpg"}`
+- `image_goofy_3` for `{"FileName": "e_JoyGoofy3.jpg"}`
+- `image_love` for `{"FileName": "e_Love.jpg"}`
+- `image_rage_1` for `{"FileName": "e_Rage.jpg"}`
+- `image_rage_2` for `{"FileName": "e_Rage2.jpg"}`
+- `image_rage_3` for `{"FileName": "e_Rage3.jpg"}`
+- `image_rage_4` for `{"FileName": "e_Rage4.jpg"}`
+- `image_remorse` for `{"FileName": "e_RemorseShame.jpg"}`
+- `image_sadness` for `{"FileName": "e_Sadness.jpg"}`
+- `image_sleping_1` for `{"FileName": "e_Sleeping.jpg"}`
+- `image_sleeping_2` for `{"FileName": "e_SleepingZZZ.jpg"}`
+- `image_sleepy_1` for `{"FileName": "e_Sleepy.jpg"}`
+- `image_sleepy_2` for `{"FileName": "e_Sleepy2.jpg"}`
+- `image_sleepy_3` for `{"FileName": "e_Sleepy3.jpg"}`
+- `image_sleepy_4` for `{"FileName": "e_Sleepy4.jpg"}`
+- `image_surprise` for `{"FileName": "e_Surprise.jpg"}`
+- `image_system_black_screen` for `{"FileName": "e_SystemBlackScreen.jpg"}`
+- `image_system_blink_large` for `{"FileName": "e_SystemBlinkLarge.jpg"}`
+- `image_system_blink_standard` for `{"FileName": "e_SystemBlinkStandard.jpg"}`
+- `image_system_camera` for `{"FileName": "e_SystemCamera.jpg"}`
+- `image_system_flash` for `{"FileName": "e_SystemFlash.jpg"}`
+- `image_system_gear_prompt` for `{"FileName": "e_SystemGearPrompt.jpg"}`
+- `image_system_logo_prompt` for `{"FileName": "e_SystemLogoPrompt.jpg"}`
+- `image_terror_1` for `{"FileName": "e_Terror.jpg"}`
+- `image_terror_2` for `{"FileName": "e_Terror2.jpg"}`
+- `image_terror_left` for `{"FileName": "e_TerrorLeft.jpg"}`
+- `image_terror_right` for `{"FileName": "e_TerrorRight.jpg"}`
 - `sound_acceptance` for `{ "FileName": "s_Acceptance.wav" }`
 - `sound_amazement_1` for `{ "FileName": "s_Amazement.wav" }`
 - `sound_amazement_2` for `{ "FileName": "s_Amazement2.wav" }`
