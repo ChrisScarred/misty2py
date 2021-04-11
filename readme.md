@@ -1,19 +1,25 @@
 # Misty2py
+
 Misty2py is a python wrapper around [Misty API](https://docs.mistyrobotics.com/misty-ii/rest-api/api-reference/ "Misty Robotics REST API").
 
 ## Features
+
 Misty2py can be used to:
+
 - **perform actions** via sending a `POST` or `DELETE` requests to Misty's API;
 - **obtain information** via sending a `GET` request to Misty's API;
 - **receive continuous streams of data** via subscribing to event types on Misty's websockets.
 
 Misty2py uses following concepts:
+
 - **action keywords** - keywords for endpoints of Misty's API that correspond to performing actions;
 - **information keywords** - keywords for endpoints of Misty's API that correspond to retrieving information;
 - **data shortcuts** - keywords for commonly used data that is supplied to Misty's API as the body of a `POST` request.
 
 ## Usage
+
 ### Getting started
+
 - Start by making **a new instance** of `Misty`:
 
 ```python
@@ -27,24 +33,31 @@ misty_robot = Misty("0.0.0.0")
 - Use methods `Misty.subscribe_event_type()`, `Misty.unsubscribe_event_type()` and `Misty.get_event_data()` to **obtain continuous streams of data** from Misty's event types.
 
 ### Obtaining information
+
 Obtaining digital information is handled by `Misty.get_info()` method.
 
 `Misty.get_info()` has following arguments:
+
 - `info_name` - *required;* the string information keyword corresponding to an endpoint in Misty's API;
 - `params` - *optional;* a dictionary of parameter name and parameter value, defaults to `{}`.
 
 ### Performing actions
+
 Performing physical and digital actions including removal of non-system files is handled by `Misty.perform_action()` method.
 
 `Misty.perform_action()` has following arguments:
+
 - `action_name` - *required;* the string action keyword corresponding to an endpoint in Misty's API;
 - `data` - *optional;* the data to pass to the request as a dictionary or a data shortcut (string), defaults to `{}`.
 
 ### Event types
+
 To obtain event data in Misty's framework, it is required to **subscribe** to an event type on Misty's websocket server. Misty's websocket server then streams data to the websocket client, in this implementation via a separate deamon thread. To **access this data,** `Misty.get_event_data()` method must be called from another thread. When data is no longer required to be streamed to the client, an event type can be **unsubscribed** to kill the deamon thread.
 
 #### Subscription
+
 Subscribe to an event via `Misty.subscribe_event_type()` with following arguments:
+
 - `type_str_value` - *required;* event type string as denoted in [Event Types Docs](https://docs.mistyrobotics.com/misty-ii/robot/sensor-data/ "Misty Robotics Event Types").
 - `event_name_value` - *optional;* a unique name for this subscription. Defaults to `"event"`.
 - `return_property_value` - *optional;* the property to return or `None` if all properties should be returned. Defaults to `None`.
@@ -54,22 +67,27 @@ Subscribe to an event via `Misty.subscribe_event_type()` with following argument
 `Misty.subscribe_event_type()` returns a dictionary with keys `"status"` (value `"Success"` or `"Failed"`) and `"message"` with details.
 
 #### Obtaining data
+
 Given `event_name_value` is a name of a subscribed event, its data can be obtained by: `Misty.get_event_data(event_name_value)`.
 
 `Misty.get_event_data()` returns a dictionary with keys `"status"` (value `"Success"` or `"Failed"`) and `"message"` with the data if successful or error details otherwise.
 
 #### Obtaining logs
+
 Given `event_name_value` is a name of a subscribed event, its logs can be obtained by: `Misty.get_event_log(event_name_value)`.
 
 `Misty.get_event_log()` returns a dictionary with keys `"status"` (value `"Success"` or `"Failed"`) and `"message"` with the logs if successful or error details otherwise.
 
 #### Unsubscribing
+
 Given `event_name_value` is a name of a subscribed event, `event_name_value` can be unsubscribed by: `Misty.unsubscribe_event_type(event_name_value)`.
 
 `Misty.unsubscribe_event_type()` returns a dictionary with keys `"status"` (value `"Success"` or `"Failed"`) and `"message"` with the logs if successful or error details otherwise.
 
 ### Keywords and shortcuts
+
 #### List of supported action keywords
+
 - `led` for **post** request to `api/led` endpoint
 - `led_trans` for **post** request to `api/led/transition` endpoint
 - `notification_settings` for **post** request to `api/notification/settings` endpoint
@@ -175,6 +193,7 @@ Given `event_name_value` is a name of a subscribed event, `event_name_value` can
 - `external_request` for **post** request to `api/request` endpoint
 
 #### List of supported information keywords
+
 - `audio_file` for **get** request to `api/audio` endpoint
 - `audio_list` for **get** request to `api/audio/list` endpoint
 - `audio_status` for **get** request to `api/services/audio` endpoint
@@ -218,6 +237,7 @@ Given `event_name_value` is a name of a subscribed event, `event_name_value` can
 - `websocket_version` for **get** request to `api/websocket/version`
 
 #### List of supported data shortcuts
+
 - `led_off` for `{ "red": "0", "green": "0", "blue": "0" }`
 - `white_light` for `{ "red": "255", "green": "255", "blue": "255" }`
 - `red_light` for `{ "red": "255", "green": "0", "blue": "0" }`
@@ -344,7 +364,9 @@ Given `event_name_value` is a name of a subscribed event, `event_name_value` can
 - `sound_wake` for `{ "FileName": "s_SystemWakeWord.wav" }`
 
 #### Adding custom keywords and shortcuts
+
 Custom keywords and shortcuts can be passed to a Misty object while declaring a new instance by using the optional arguments:
+
 - `custom_info` for custom information keywords (a dictionary with keys being the information keywords and values being the endpoints),
 - `custom_actions` for custom action keywords (a dictionary with keys being the action keywords and values being a dictionary `{"endpoint" : "edpoint_value", "method" : "method_value"}` where `method_value` is either `post` or `delete`),
 - `custom_data` for custom data shortcuts (a dictionary with keys being the data shortcuts and values being the dictionary of data values).
