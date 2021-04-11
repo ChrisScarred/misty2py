@@ -75,6 +75,7 @@ class Misty:
                 - return_property (str) for the property to return from Misty's websockets; all properties are returned if return_property is not supplied.
                 - debounce (int) for the interval at which new information is sent in ms; defaults to 250.
                 - len_data_entries (int) for the maximum number of data entries to keep (discards in fifo style); defaults to 10.
+                - event_emitter (Callable) for an event emitter function which emits an event upon message recieval.
             - obtaining the data from an event: requires an action keyword "get_data" and an argument "name" (the event name).
             - obtaining the log from an event: requires an action keyword "get_log" and an argument "name" (the event name).
             - unsubscribing from an event: requires an action keyword "unsubscribe" and an argument "name" (the event name).

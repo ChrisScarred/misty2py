@@ -3,8 +3,7 @@
 import websocket
 import json
 import threading
-from typing import Union
-
+from typing import Callable, Union
 
 from misty2py.utils import get_random_string
 
@@ -23,7 +22,7 @@ class MistyEvent():
         len_data_entries (int): The maximum number of data entries to keep.
     """
 
-    def __init__(self, ip: str, type_str: str, event_name: str, return_property: str, debounce: int, len_data_entries: int):
+    def __init__(self, ip: str, type_str: str, event_name: str, return_property: str, debounce: int, len_data_entries: int, event_emitter: Union[Callable, None]):
         """Initialises an event type object.
 
         Args:
@@ -43,8 +42,12 @@ class MistyEvent():
         self.debounce = debounce
         self.log = []
         self.len_data_entries = len_data_entries
-        event_thread = threading.Thread(target=self.run)
+        event_thread = threading.Thread(target=self.run, daemon=True)
         event_thread.start()
+        if event_emitter:
+            self.ee = event_emitter
+        else:
+            self.ee = False
 
     def run(self):
         """Initialises the subscription and data collection.
@@ -70,6 +73,9 @@ class MistyEvent():
         if len(self.data) > self.len_data_entries:
             self.data = self.data[1:-1]
         self.data.append(mes)
+
+        if self.ee:
+            self.ee.emit(self.event_name, mes)
 
     def on_error(self, ws, error):
         """Logs an error.
@@ -147,6 +153,7 @@ class MistyEventHandler:
                 - return_property (str) for the property to return from Misty's websockets; all properties are returned if return_property is not supplied.
                 - debounce (int) for the interval at which new information is sent in ms; defaults to 250.
                 - len_data_entries (int) for the maximum number of data entries to keep (discards in fifo style); defaults to 10.
+                - event_emitter (Callable) for an event emitter function which emits an event upon message recieval.
 
         Returns:
             dict: success/fail message in the form of json dict.
@@ -172,6 +179,8 @@ class MistyEventHandler:
         if not len_data_entries:
             len_data_entries = 10
 
+        event_emitter = kwargs.get("event_emitter")
+
         try:
             s = MistyEvent(
                 self.ip, 
@@ -179,7 +188,8 @@ class MistyEventHandler:
                 event_name, 
                 return_property, 
                 debounce, 
-                len_data_entries
+                len_data_entries,
+                event_emitter
             )
 
         except:

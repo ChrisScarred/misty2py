@@ -62,6 +62,7 @@ Subscribe to an event via `Misty.event("subscribe", **kwargs)` with following ke
     - `return_property` - *optional;* the property to return from Misty's websockets; all properties are returned if return_property is not supplied.
     - `debounce` - *optional;* the interval in ms at which new information is sent; defaults to 250.
     - `len_data_entries` - *optional;* the maximum number of data entries to keep (discards in fifo style); defaults to 10.
+    - `event_emitter` - *optional;* an event emitter function which emits an event upon message recieval. Supplies the message content as an argument.
 
 #### Accessing the data and the log
 
@@ -71,9 +72,14 @@ Access the data of an event or its log via `Misty.event("get_data", **kwargs)` o
 
 Unsubscribe from an event via `Misty.event("unsubscribe", **kwargs)` with a keyword argument `name` (the name of the event).
 
-#### Example
+#### Basic example
 
 ```python
+import time
+
+from misty2py.robot import Misty
+
+
 m = Misty("0.0.0.0")
 
 event = "BatteryCharge"
@@ -86,6 +92,32 @@ time.sleep(1)
 d = m.event("get_data", name = e_name)
 
 d = m.event("unsubscribe", name = e_name)
+```
+
+#### Event emitter usage - example
+
+```python
+import time
+from pymitter import EventEmitter
+
+from misty2py.robot import Misty
+
+
+m = Misty("192.168.0.103")
+ee = EventEmitter()
+event_name = "myevent_001"
+
+@ee.on(event_name)
+def listener(data):
+    print(data)
+
+
+event_type = "BatteryCharge"
+d = m.event("subscribe", type = event_type, name = event_name, event_emitter = ee)
+print(d)
+time.sleep(2)
+d = m.event("unsubscribe", name = event_name)
+print(d)
 ```
 
 ### Keywords and shortcuts
