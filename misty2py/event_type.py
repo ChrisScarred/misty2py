@@ -26,7 +26,7 @@ class EventType():
             ip (str): Misty's IP address.
             type_str (str): The event type string as required by Misty's websockets.
             event_name (str): A custom, unique event name. 
-            return_property (str): The property to return as requeired by Misty's websockets.
+            return_property (str): The property to return as required by Misty's websockets.
             debounce (int): The interval at which new information is sent in ms.
             len_data_entries (int): The maximum number of data entries to keep.
         """
