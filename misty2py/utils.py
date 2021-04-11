@@ -1,7 +1,12 @@
 """Utility functions for misty2py.
 """
 import base64
+import string
+import random
 
+
+def get_random_string(n: int) -> str:
+    return ''.join(random.SystemRandom().choice(string.ascii_letters + string.digits) for _ in range(n))
 
 def rgb(red: int, green: int, blue: int) -> dict:
     """Returns rgb dictionary from rgb values.

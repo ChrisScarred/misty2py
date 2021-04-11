@@ -52,37 +52,41 @@ Performing physical and digital actions including removal of non-system files is
 
 ### Event types
 
-To obtain event data in Misty's framework, it is required to **subscribe** to an event type on Misty's websocket server. Misty's websocket server then streams data to the websocket client, in this implementation via a separate deamon thread. To **access this data,** `Misty.get_event_data()` method must be called from another thread. When data is no longer required to be streamed to the client, an event type can be **unsubscribed** to kill the deamon thread.
+To obtain event data in Misty's framework, it is required to **subscribe** to an event type on Misty's websocket server. Misty's websocket server then streams data to the websocket client, in this implementation via a separate thread. To **access this data,** `Misty.get_event_data()` method must be called from another thread. When data is no longer required to be streamed to the client, an event type can be **unsubscribed** to kill the event thread.
 
 #### Subscription
 
-Subscribe to an event via `Misty.subscribe_event_type()` with following arguments:
+Subscribe to an event via `Misty.event("subscribe", **kwargs)` with following keyword arguments:
+    - `type` - *required;* event type string as documented in [Event Types Docs](https://docs.mistyrobotics.com/misty-ii/robot/sensor-data/ "Misty Robotics Event Types").
+    - `name` - *optional;* a custom event name string; must be unique.
+    - `return_property` - *optional;* the property to return from Misty's websockets; all properties are returned if return_property is not supplied.
+    - `debounce` - *optional;* the interval in ms at which new information is sent; defaults to 250.
+    - `len_data_entries` - *optional;* the maximum number of data entries to keep (discards in fifo style); defaults to 10.
 
-- `type_str_value` - *required;* event type string as denoted in [Event Types Docs](https://docs.mistyrobotics.com/misty-ii/robot/sensor-data/ "Misty Robotics Event Types").
-- `event_name_value` - *optional;* a unique name for this subscription. Defaults to `"event"`.
-- `return_property_value` - *optional;* the property to return or `None` if all properties should be returned. Defaults to `None`.
-- `debounce_value` - *optional;* the interval at which new information is sent in ms. Defaults to `250`.
-- `len_data_entries` - *optional;* the maximum number of data entries to keep. Discards in fifo style (first in, first out). Defaults to `10`.
+#### Accessing the data and the log
 
-`Misty.subscribe_event_type()` returns a dictionary with keys `"status"` (value `"Success"` or `"Failed"`) and `"message"` with details.
-
-#### Obtaining data
-
-Given `event_name_value` is a name of a subscribed event, its data can be obtained by: `Misty.get_event_data(event_name_value)`.
-
-`Misty.get_event_data()` returns a dictionary with keys `"status"` (value `"Success"` or `"Failed"`) and `"message"` with the data if successful or error details otherwise.
-
-#### Obtaining logs
-
-Given `event_name_value` is a name of a subscribed event, its logs can be obtained by: `Misty.get_event_log(event_name_value)`.
-
-`Misty.get_event_log()` returns a dictionary with keys `"status"` (value `"Success"` or `"Failed"`) and `"message"` with the logs if successful or error details otherwise.
+Access the data of an event or its log via `Misty.event("get_data", **kwargs)` or `Misty.event("get_log", **kwargs)` with a keyword argument `name` (the name of the event).
 
 #### Unsubscribing
 
-Given `event_name_value` is a name of a subscribed event, `event_name_value` can be unsubscribed by: `Misty.unsubscribe_event_type(event_name_value)`.
+Unsubscribe from an event via `Misty.event("unsubscribe", **kwargs)` with a keyword argument `name` (the name of the event).
 
-`Misty.unsubscribe_event_type()` returns a dictionary with keys `"status"` (value `"Success"` or `"Failed"`) and `"message"` with the logs if successful or error details otherwise.
+#### Example
+
+```python
+m = Misty("0.0.0.0")
+
+event = "BatteryCharge"
+
+d = m.event("subscribe", type = event)
+e_name = d.get("event_name")
+
+time.sleep(1)
+
+d = m.event("get_data", name = e_name)
+
+d = m.event("unsubscribe", name = e_name)
+```
 
 ### Keywords and shortcuts
 

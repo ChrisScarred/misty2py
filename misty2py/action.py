@@ -5,6 +5,8 @@ import json
 from os import path
 import sys
 
+from misty2py.utils import construct_transition_dict
+
 this_directory = path.abspath(path.dirname(__file__))
 ACTIONS_JSON = str(path.join(this_directory, "allowed_actions.json"))
 DATA_JSON = str(path.join(this_directory, "allowed_data.json"))
@@ -95,3 +97,27 @@ class Action(Post):
             else:
                 return {"status" : "Failed", "message" : "Data shortcut `%s` not supported." % data}
         
+    def action_handler(self, action_name: str, data: dict):
+        """Sends Misty a request to perform an action.
+
+        Args:
+            action_name (str): The keyword specifying the action to perform.
+            data (dict): The data to send in the request body in the form of a data shortcut or a json dictionary.
+
+        Returns:
+            dict: response from the API
+        """
+        
+        if action_name == "led_trans" and isinstance(data, dict) and len(data)>=2 and len(data)<=4:
+            try:
+                data = construct_transition_dict(data, self.allowed_data)
+            except:
+                return {"status" : "Failed", "message" : "The data is not in correct format."}
+
+        data_method = ""
+        if isinstance(data, dict):
+            data_method = "dict"
+        else:
+            data_method = "string"
+        r = self.perform_action(action_name, data, data_method)
+        return r

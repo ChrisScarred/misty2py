@@ -10,10 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - data shortcuts for system images
+- `MistyEventHandler` class
 
 ### Changed
 
 - documentation of data shortcuts in `README.md` to include added data shortcuts
+- events are no longer listened to in a deamon thread
+- refinement the event-related architecture to be clearer
+- documentation of event-related changes in `README.md`
 
 ## 1.0.0 - 10-03-2021
 
