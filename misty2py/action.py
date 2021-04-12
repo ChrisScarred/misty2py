@@ -111,8 +111,8 @@ class Action(Post):
         if action_name == "led_trans" and isinstance(data, dict) and len(data)>=2 and len(data)<=4:
             try:
                 data = construct_transition_dict(data, self.allowed_data)
-            except:
-                return {"status" : "Failed", "message" : "The data is not in correct format."}
+            except ValueError as e:
+                return {"status" : "Failed", "message" : "The data is not in correct format.", "details": e}
 
         data_method = ""
         if isinstance(data, dict):

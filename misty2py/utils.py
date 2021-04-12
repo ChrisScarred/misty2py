@@ -6,6 +6,17 @@ import random
 
 
 def get_random_string(n: int) -> str:
+    """Constructs an n characters long random string containing ASCII letters and digits.
+
+    Args:
+        n (int): the required length of the string.
+
+    Returns:
+        str: the random string.
+    """
+
+    assert n > 0, "Required string length must be a positive integer."
+
     return ''.join(random.SystemRandom().choice(string.ascii_letters + string.digits) for _ in range(n))
 
 def rgb(red: int, green: int, blue: int) -> dict:
@@ -42,19 +53,46 @@ def construct_transition_dict(data: dict, allowed_data: dict) -> dict:
         dict: a dictionary in the form that led_trans requires.
     """
     
-    col1 = data['col1']
-    if isinstance(col1, str):
-        col1 = allowed_data[col1]
-    col2 = data['col2']
-    if isinstance(col2, str):
-        col2 = allowed_data[col2]
+    col1 = data.get('col1')
+    if col1:
+        if isinstance(col1, str):
+            col1 = allowed_data[col1]
+    else:
+        raise ValueError("The `col1` value is missing.")
+
+    col2 = data.get('col2')
+    if col2:
+        if isinstance(col2, str):
+            col2 = allowed_data[col2]
+    else:
+        raise ValueError("The `col2` value is missing.")
+
     time = 500
-    transition = "Breathe"
     if 'time' in data.keys():
         time = data['time']
+        
+    transition = "Breathe"    
     if 'transition' in data.keys():
         transition = data['transition']
-    dct = {
+
+    for subcolour in ["red", "green", "blue"]:
+        val1 = col1.get(subcolour)
+
+        if val1:
+            if val1 < 0 or val1 > 255:
+                raise ValueError("Invalid value: `%s` of `col1`" % subcolour)
+        else:
+            raise ValueError("Missing value: `%s` of `col1`" % subcolour)
+
+        val2 = col2.get(subcolour)
+
+        if val2:
+            if val2 < 0 or val2 > 255:
+                raise ValueError("Invalid value: `%s` of `col2`" % subcolour)
+        else:
+            raise ValueError("Missing value: `%s` of `col2`" % subcolour)
+
+    return {
         "Red": col1["red"],
         "Green": col1["green"],
         "Blue": col1["blue"],
@@ -64,7 +102,6 @@ def construct_transition_dict(data: dict, allowed_data: dict) -> dict:
         "TransitionType": transition,
         "TimeMS": time
     }
-    return dct
 
 def file_to_base64_string(fname: str) -> str:
     """Encodes a file into base64 encoding and into utf-8 string from the encoding.
@@ -77,6 +114,9 @@ def file_to_base64_string(fname: str) -> str:
     Returns:
         str: file as base64 string
     """
-    data = open(fname, "rb").read()
-    encoded = base64.b64encode(data)
-    return encoded.decode("utf-8")
+    try:
+        data = open(fname, "rb").read()
+        encoded = base64.b64encode(data)
+        return encoded.decode("utf-8")
+    except:
+        return "Unknown error while encoding the file `%s`" % fname

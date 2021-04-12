@@ -120,6 +120,15 @@ d = m.event("unsubscribe", name = event_name)
 print(d)
 ```
 
+### Utilities
+
+The module `misty2py.utils` contains utility functions, including:
+
+- `get_random_string(n: int) -> str` - returns an *n* characters long random string containing ASCII letters and digits. This function is especially useful when naming events.
+- `rgb(red: int, green: int, blue: int) -> dict` - constructs a dictionary of a colour as required by Misty's API from three integers *red*, *green* and *blue*
+- `construct_transition_dict(data: dict, allowed_data: dict) -> dict` - constructs input to led_trans action from a dict of two colours data dictionaries or shortcuts (under keys col1, col2) and optionally transition time (key time) and transition style (key transition). *allowed_data* is the dictionary of allowed data shortcuts for the particular Misty object the resulting dictionary is planned to be used in.
+- `file_to_base64_string(fname: str) -> str` - converts a file (an image or a video) into a `base64` string which can be sent via HTTP requests to Misty's API.  
+
 ### Keywords and shortcuts
 
 #### List of supported action keywords
