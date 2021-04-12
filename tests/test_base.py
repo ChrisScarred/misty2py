@@ -70,25 +70,25 @@ def test_query_params():
 
 
 def test_event_type_data():
-    misty_robot.subscribe_event("BatteryCharge", event_name="Battery Event")
-    time.sleep(1)
-    data = misty_robot.get_event_data("Battery Event")
-    misty_robot.unsubscribe_event("Battery Event")
+    misty_robot.event("subscribe", type="BatteryCharge", name="Battery Event")
+    time.sleep(0.5)
+    data = misty_robot.event("get_data", name="Battery Event")
+    misty_robot.event("unsubscribe", name="Battery Event")
     assert data["status"] == "Success"
 
 
 def test_event_type_log():
-    misty_robot.subscribe_event("BatteryCharge", event_name="Battery Event")
-    time.sleep(1)
-    data = misty_robot.get_event_log("Battery Event")
-    misty_robot.unsubscribe_event("Battery Event")
+    misty_robot.event("subscribe", type="BatteryCharge", name="Battery Event")
+    time.sleep(0.5)
+    data = misty_robot.event("get_log", name="Battery Event")
+    misty_robot.event("unsubscribe", name="Battery Event")
     assert data["status"] == "Success"
 
 
 def test_event_type_unsubscription():
-    misty_robot.subscribe_event("BatteryCharge", event_name="Battery Event")
-    time.sleep(1)
-    data = misty_robot.get_event_data("Battery Event")
-    misty_robot.unsubscribe_event("Battery Event")
-    nodata = misty_robot.get_event_data("Battery Event")
+    misty_robot.event("subscribe", type="BatteryCharge", name="Battery Event")
+    time.sleep(0.5)
+    data = misty_robot.event("get_data", name="Battery Event")
+    misty_robot.event("unsubscribe", name="Battery Event")
+    nodata = misty_robot.event("get_data", name="Battery Event")
     assert data["status"] == "Success" and nodata["status"] == "Failed"
