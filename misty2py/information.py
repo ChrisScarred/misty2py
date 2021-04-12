@@ -9,7 +9,8 @@ from urllib.parse import urlencode
 this_directory = path.abspath(path.dirname(__file__))
 INFOS_JSON = str(path.join(this_directory, "allowed_infos.json"))
 
-class Get():
+
+class Get:
     """A class representing the GET url request method.
 
     Attributes:
@@ -17,7 +18,7 @@ class Get():
         allowed_infos (dict): The dictionary of information keywords matching to the Misty's API endpoints.
     """
 
-    def __init__(self, ip : str, custom_allowed_infos: Dict = {}) -> None:
+    def __init__(self, ip: str, custom_allowed_infos: Dict = {}) -> None:
         """Initialises a Get object.
 
         Args:
@@ -33,8 +34,8 @@ class Get():
         f.close()
 
         self.allowed_infos = allowed_infos
-    
-    def get_info(self, endpoint : str) -> Dict:
+
+    def get_info(self, endpoint: str) -> Dict:
         """Sends a GET request.
 
         Args:
@@ -44,16 +45,15 @@ class Get():
             Dict: The request response.
         """
 
-        r = requests.get('http://%s/%s' % (self.ip, endpoint))
+        r = requests.get("http://%s/%s" % (self.ip, endpoint))
         try:
             return r.json()
         except:
-            return {'status' : 'Success', 'content' : r.content}
+            return {"status": "Success", "content": r.content}
 
 
 class Info(Get):
-    """A class representing an information request from Misty. A subclass of Get().
-    """
+    """A class representing an information request from Misty. A subclass of Get()."""
 
     def get_info(self, info_name: str, params: Dict = {}) -> Dict:
         """Sends an information request to Misty.
@@ -65,11 +65,11 @@ class Info(Get):
         Returns:
             Dict: Misty's response.
         """
-        
+
         if not info_name in self.allowed_infos.keys():
             response = {
-                "status" : "Failed", 
-                "message" : "Command `%s` not supported." % info_name
+                "status": "Failed",
+                "message": "Command `%s` not supported." % info_name,
             }
 
         else:
@@ -85,8 +85,8 @@ class Info(Get):
 
             except:
                 response = {
-                    "status" : "Failed", 
-                    "message" : "Unknown error - perhaps your Misty edition does not support this endpoint?"
+                    "status": "Failed",
+                    "message": "Unknown error - perhaps your Misty edition does not support this endpoint?",
                 }
 
         return response

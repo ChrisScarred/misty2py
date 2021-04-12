@@ -12,7 +12,8 @@ this_directory = path.abspath(path.dirname(__file__))
 ACTIONS_JSON = str(path.join(this_directory, "allowed_actions.json"))
 DATA_JSON = str(path.join(this_directory, "allowed_data.json"))
 
-class Post():
+
+class Post:
     """A class representing the POST url request method.
 
     Attributes:
@@ -21,7 +22,9 @@ class Post():
         allowed_data (dict): The dictionary of custom data shortcuts matching to the json dictionaries required my Misty's API.
     """
 
-    def __init__(self, ip : str, custom_allowed_actions: Dict = {}, custom_allowed_data: Dict = {}) -> None:
+    def __init__(
+        self, ip: str, custom_allowed_actions: Dict = {}, custom_allowed_data: Dict = {}
+    ) -> None:
         """Initialises a Post object.
 
         Args:
@@ -44,7 +47,9 @@ class Post():
         f.close()
         self.allowed_data = allowed_data
 
-    def perform_action(self, endpoint : str, data: Dict, request_method: str = "post") -> Dict:
+    def perform_action(
+        self, endpoint: str, data: Dict, request_method: str = "post"
+    ) -> Dict:
         """Sends a POST request.
 
         Args:
@@ -56,21 +61,22 @@ class Post():
             Dict: The API response.
         """
 
-        if request_method=="post":
-            response = requests.post('http://%s/%s' % (self.ip, endpoint), json = data)
+        if request_method == "post":
+            response = requests.post("http://%s/%s" % (self.ip, endpoint), json=data)
         else:
-            response = requests.delete('http://%s/%s' % (self.ip, endpoint), json = data)
+            response = requests.delete("http://%s/%s" % (self.ip, endpoint), json=data)
         try:
             return response.json()
         except:
-            return {'status' : 'Success', 'content' : response.content}
-        
+            return {"status": "Success", "content": response.content}
+
 
 class Action(Post):
-    """A class representing an action request for Misty. A subclass of Post().
-    """
+    """A class representing an action request for Misty. A subclass of Post()."""
 
-    def perform_action(self, action_name: str, data: Union[str, Dict], data_method: str) -> Dict:
+    def perform_action(
+        self, action_name: str, data: Union[str, Dict], data_method: str
+    ) -> Dict:
         """Sends an action request to Misty.
 
         Args:
@@ -84,45 +90,45 @@ class Action(Post):
 
         if not action_name in self.allowed_actions.keys():
             return {
-                "status" : "Failed", 
-                "message" : "Command `%s` not supported." % action_name
+                "status": "Failed",
+                "message": "Command `%s` not supported." % action_name,
             }
 
         else:
             if data_method == "dict":
                 try:
                     return super().perform_action(
-                        self.allowed_actions[action_name]["endpoint"], 
-                        data, 
-                        request_method=self.allowed_actions[action_name]["method"]
+                        self.allowed_actions[action_name]["endpoint"],
+                        data,
+                        request_method=self.allowed_actions[action_name]["method"],
                     )
 
                 except:
                     return {
-                        "status" : "Failed",
-                        "message" : "Error: %s." %  sys.exc_info()[1]
+                        "status": "Failed",
+                        "message": "Error: %s." % sys.exc_info()[1],
                     }
 
             elif data_method == "string" and data in self.allowed_data:
                 try:
                     return super().perform_action(
-                        self.allowed_actions[action_name]["endpoint"], 
-                        self.allowed_data[data], 
-                        request_method=self.allowed_actions[action_name]["method"]
+                        self.allowed_actions[action_name]["endpoint"],
+                        self.allowed_data[data],
+                        request_method=self.allowed_actions[action_name]["method"],
                     )
 
                 except:
                     return {
-                        "status" : "Failed", 
-                        "message" : "Error: %s." %  sys.exc_info()[1]
+                        "status": "Failed",
+                        "message": "Error: %s." % sys.exc_info()[1],
                     }
 
             else:
                 return {
-                    "status" : "Failed", 
-                    "message" : "Data shortcut `%s` not supported." % data
+                    "status": "Failed",
+                    "message": "Data shortcut `%s` not supported." % data,
                 }
-        
+
     def action_handler(self, action_name: str, data: Union[Dict, str]) -> Dict:
         """Sends Misty a request to perform an action.
 
@@ -133,17 +139,22 @@ class Action(Post):
         Returns:
             Dict: response from the API
         """
-        
-        if action_name == "led_trans" and isinstance(data, Dict) and len(data) >= 2 and len(data) <= 4:
-            
+
+        if (
+            action_name == "led_trans"
+            and isinstance(data, Dict)
+            and len(data) >= 2
+            and len(data) <= 4
+        ):
+
             try:
                 data = construct_transition_dict(data, self.allowed_data)
 
             except ValueError as e:
                 return {
-                    "status" : "Failed", 
-                    "message" : "The data is not in correct format.", 
-                    "details": e
+                    "status": "Failed",
+                    "message": "The data is not in correct format.",
+                    "details": e,
                 }
 
         data_method = ""
@@ -153,5 +164,5 @@ class Action(Post):
 
         else:
             data_method = "string"
-        
+
         return self.perform_action(action_name, data, data_method)

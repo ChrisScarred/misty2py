@@ -16,7 +16,13 @@ class Misty:
         events (dict): A dictionary of active event subscriptions (keys being the event name, values the MistyEvent() object).
     """
 
-    def __init__(self, ip: str, custom_info: Dict = {}, custom_actions: Dict = {}, custom_data: Dict = {}):
+    def __init__(
+        self,
+        ip: str,
+        custom_info: Dict = {},
+        custom_actions: Dict = {},
+        custom_data: Dict = {},
+    ):
         """Initialises an instance of a Misty robot.
 
         Args:
@@ -28,7 +34,9 @@ class Misty:
 
         self.ip = ip
         self.infos = Info(ip, custom_allowed_infos=custom_info)
-        self.actions = Action(ip, custom_allowed_actions=custom_actions, custom_allowed_data=custom_data)
+        self.actions = Action(
+            ip, custom_allowed_actions=custom_actions, custom_allowed_data=custom_data
+        )
         self.event_handler = MistyEventHandler(ip)
 
     def __str__(self) -> str:
@@ -63,12 +71,12 @@ class Misty:
         Returns:
             Dict: The requested information in the form of a json dictionary.
         """
-        
+
         return self.infos.get_info(info_name, params)
 
     def event(self, action: str, **kwargs) -> Dict:
         """Handles event-related actions.
-        
+
         Supports following actions:
             - event subscripton: requires an action keyword "subscribe" and an argument "type" (a string representing the event type to subscribe to). Optional arguments are:
                 - name (str) for a custom event name; must be unique.
@@ -99,7 +107,4 @@ class Misty:
         if action == "unsubscribe":
             return self.event_handler.unsubscribe_event(kwargs)
 
-        return {
-            "status": "Failed",
-            "message": "Unknown event action: `%s`." % action
-        }
+        return {"status": "Failed", "message": "Unknown event action: `%s`." % action}

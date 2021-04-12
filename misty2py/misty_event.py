@@ -8,14 +8,14 @@ from typing import Callable, Dict, Union
 from misty2py.utils import get_random_string
 
 
-class MistyEvent():
+class MistyEvent:
     """A class that represents an event type subscribed to.
 
     Attributes:
         server (str): Misty's websocket server address.
         data (list): The data entries obtained.
         type_str (str): The event type string as required by Misty's websockets.
-        event_name (str): A custom, unique event name. 
+        event_name (str): A custom, unique event name.
         return_property (str): The property to return as requeired by Misty's websockets.
         debounce (int): The interval at which new information is sent in ms.
         log (list): The logs.
@@ -23,13 +23,22 @@ class MistyEvent():
         ee (Union[bool, Callable]): The event emitter function if one is desired, False otherwise.
     """
 
-    def __init__(self, ip: str, type_str: str, event_name: str, return_property: str, debounce: int, len_data_entries: int, event_emitter: Union[Callable, None]):
+    def __init__(
+        self,
+        ip: str,
+        type_str: str,
+        event_name: str,
+        return_property: str,
+        debounce: int,
+        len_data_entries: int,
+        event_emitter: Union[Callable, None],
+    ):
         """Initialises an event object.
 
         Args:
             ip (str): Misty's IP address.
             type_str (str): The event type string as required by Misty's websockets.
-            event_name (str): A custom, unique event name. 
+            event_name (str): A custom, unique event name.
             return_property (str): The property to return as required by Misty's websockets.
             debounce (int): The interval at which new information is sent in ms.
             len_data_entries (int): The maximum number of data entries to keep.
@@ -52,14 +61,15 @@ class MistyEvent():
             self.ee = False
 
     def run(self):
-        """Initialises the subscription and data collection.
-        """
+        """Initialises the subscription and data collection."""
 
-        self.ws = websocket.WebSocketApp(self.server,
-                                on_open = self.on_open,
-                                on_message = self.on_message,
-                                on_error = self.on_error,
-                                on_close = self.on_close)
+        self.ws = websocket.WebSocketApp(
+            self.server,
+            on_open=self.on_open,
+            on_message=self.on_message,
+            on_error=self.on_error,
+            on_close=self.on_close,
+        )
         self.ws.run_forever()
 
     def on_message(self, ws, message):
@@ -124,31 +134,26 @@ class MistyEvent():
             self.ee.emit("open_%s" % self.event_name)
 
     def subscribe(self):
-        """Constructs the subscription message.
-        """
+        """Constructs the subscription message."""
 
         msg = {
-            "Operation" : "subscribe",
-            "Type" : self.type_str,
-            "DebounceMs" : self.debounce,
-            "EventName" : self.event_name,
-            "ReturnProperty": self.return_property
+            "Operation": "subscribe",
+            "Type": self.type_str,
+            "DebounceMs": self.debounce,
+            "EventName": self.event_name,
+            "ReturnProperty": self.return_property,
         }
-        msg_str = json.dumps(msg, separators=(',', ':'))
+        msg_str = json.dumps(msg, separators=(",", ":"))
         self.ws.send(msg_str)
 
     def unsubscribe(self):
-        """Constructs the unsubscription message.
-        """
-        
-        msg = {
-            "Operation" : "unsubscribe",
-            "EventName" : self.event_name,
-            "Message": ""
-        }
-        msg_str = json.dumps(msg, separators=(',', ':'))
+        """Constructs the unsubscription message."""
+
+        msg = {"Operation": "unsubscribe", "EventName": self.event_name, "Message": ""}
+        msg_str = json.dumps(msg, separators=(",", ":"))
         self.ws.send(msg_str)
         self.ws.close()
+
 
 class MistyEventHandler:
     """A class that handles all events its related Misty object subscribed to during this runtime.
@@ -185,10 +190,7 @@ class MistyEventHandler:
 
         event_type = kwargs.get("type")
         if not event_type:
-            return {
-                "status" : "Failed", 
-                "message" : "No event type specified."
-            }
+            return {"status": "Failed", "message": "No event type specified."}
 
         event_name = kwargs.get("name")
         if not event_name:
@@ -208,30 +210,29 @@ class MistyEventHandler:
 
         try:
             new_event = MistyEvent(
-                self.ip, 
-                event_type, 
-                event_name, 
-                return_property, 
-                debounce, 
+                self.ip,
+                event_type,
+                event_name,
+                return_property,
+                debounce,
                 len_data_entries,
-                event_emitter
+                event_emitter,
             )
 
         except:
             return {
-                "status" : "Failed", 
-                "message" : "Unknown error occurred while attempting to subscribe to an event of type `%s`." % event_type
+                "status": "Failed",
+                "message": "Unknown error occurred while attempting to subscribe to an event of type `%s`."
+                % event_type,
             }
 
         self.events[event_name] = new_event
 
         return {
-            "status" : "Success", 
-            "message" : "Subscribed to event type `%s` with name `%s`" % (
-                event_type, 
-                event_name
-            ), 
-            "event_name" : event_name
+            "status": "Success",
+            "message": "Subscribed to event type `%s` with name `%s`"
+            % (event_type, event_name),
+            "event_name": event_name,
         }
 
     def get_event_data(self, kwargs: Dict) -> Dict:
@@ -246,27 +247,18 @@ class MistyEventHandler:
 
         event_name = kwargs.get("name")
         if not event_name:
-            return {
-                "status" : "Failed", 
-                "message" : "No event name specified."
-            }
+            return {"status": "Failed", "message": "No event name specified."}
 
         if event_name in self.events.keys():
             try:
-                return {
-                    "status" : "Success", 
-                    "message" : self.events[event_name].data
-                }
+                return {"status": "Success", "message": self.events[event_name].data}
             except:
-                return {
-                    "status" : "Failed", 
-                    "message" : "Unknown error occurred."
-                }
+                return {"status": "Failed", "message": "Unknown error occurred."}
 
         else:
             return {
-                "status" : "Failed", 
-                "message" : "Event type `%s` is not subscribed to." % event_name
+                "status": "Failed",
+                "message": "Event type `%s` is not subscribed to." % event_name,
             }
 
     def get_event_log(self, kwargs: Dict) -> Dict:
@@ -281,29 +273,23 @@ class MistyEventHandler:
 
         event_name = kwargs.get("name")
         if not event_name:
-            return {
-                "status" : "Failed", 
-                "message" : "No event name specified."
-            }
+            return {"status": "Failed", "message": "No event name specified."}
 
         if event_name in self.events.keys():
             try:
-                return {
-                    "status" : "Success", 
-                    "message" : self.events[event_name].log
-                }
+                return {"status": "Success", "message": self.events[event_name].log}
             except:
                 return {
-                    "status" : "Failed",
-                    "message" : "Unknown error occurred while attempting to access the log of event `%s`." % event_name
+                    "status": "Failed",
+                    "message": "Unknown error occurred while attempting to access the log of event `%s`."
+                    % event_name,
                 }
 
         else:
             return {
-                "status" : "Failed", 
-                "message" : "Event `%s` is not subscribed to." % event_name
+                "status": "Failed",
+                "message": "Event `%s` is not subscribed to." % event_name,
             }
-
 
     def unsubscribe_event(self, kwargs: Dict) -> Dict:
         """Unsubscribes from an event type.
@@ -317,31 +303,27 @@ class MistyEventHandler:
 
         event_name = kwargs.get("name")
         if not event_name:
-            return {
-                "status" : "Failed", 
-                "message" : "No event name specified."
-            }
+            return {"status": "Failed", "message": "No event name specified."}
 
         if event_name in self.events.keys():
             try:
                 self.events[event_name].unsubscribe()
                 mes = {
-                    "status" : "Success", 
-                    "message" : "Event `%s` of type `%s` unsubscribed" % (
-                        event_name, 
-                        self.events[event_name].type_str
-                    ), 
-                    "log": self.events[event_name].log
+                    "status": "Success",
+                    "message": "Event `%s` of type `%s` unsubscribed"
+                    % (event_name, self.events[event_name].type_str),
+                    "log": self.events[event_name].log,
                 }
             except:
                 mes = {
-                    "status" : "Failed", 
-                    "message" : "Unknown error occurred while attempting to unsubscribe from event `%s`." % event_name
+                    "status": "Failed",
+                    "message": "Unknown error occurred while attempting to unsubscribe from event `%s`."
+                    % event_name,
                 }
             self.events.pop(event_name)
             return mes
         else:
             return {
-                "status" : "Failed", 
-                "message" : "Event type `%s` is not subscribed to." % event_name
+                "status": "Failed",
+                "message": "Event type `%s` is not subscribed to." % event_name,
             }
