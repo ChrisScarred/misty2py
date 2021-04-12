@@ -3,7 +3,7 @@
 import websocket
 import json
 import threading
-from typing import Callable, Union
+from typing import Callable, Dict, Union
 
 from misty2py.utils import get_random_string
 
@@ -20,10 +20,11 @@ class MistyEvent():
         debounce (int): The interval at which new information is sent in ms.
         log (list): The logs.
         len_data_entries (int): The maximum number of data entries to keep.
+        ee (Union[bool, Callable]): The event emitter function if one is desired, False otherwise.
     """
 
     def __init__(self, ip: str, type_str: str, event_name: str, return_property: str, debounce: int, len_data_entries: int, event_emitter: Union[Callable, None]):
-        """Initialises an event type object.
+        """Initialises an event object.
 
         Args:
             ip (str): Misty's IP address.
@@ -32,6 +33,7 @@ class MistyEvent():
             return_property (str): The property to return as required by Misty's websockets.
             debounce (int): The interval at which new information is sent in ms.
             len_data_entries (int): The maximum number of data entries to keep.
+            event_emitter (Union[Callable, None]): The event emitter function if one is desired, False otherwise.
         """
 
         self.server = "ws://%s/pubsub" % ip
@@ -61,10 +63,10 @@ class MistyEvent():
         self.ws.run_forever()
 
     def on_message(self, ws, message):
-        """Saves received data.
+        """Saves received data and if ee is set, emits an event.
 
         Args:
-            ws (websocket.WebSocketApp): the event type's websocket.
+            ws (websocket.WebSocketApp): the event's websocket.
             message (str): the data.
         """
 
@@ -78,7 +80,7 @@ class MistyEvent():
             self.ee.emit(self.event_name, mes)
 
     def on_error(self, ws, error):
-        """Logs an error.
+        """Logs an error and if ee is set, emits an 'error' event.
 
         Args:
             ws (websocket.WebSocketApp): the event type's websocket.
@@ -89,8 +91,11 @@ class MistyEvent():
             self.log = self.log[1:-1]
         self.log.append(error)
 
+        if self.ee:
+            self.ee.emit("error_%s" % self.event_name, error)
+
     def on_close(self, ws):
-        """Appends the closing message to the log.
+        """Appends the closing message to the log and if ee is set, emits a 'close' event.
 
         Args:
             ws (websocket.WebSocketApp): the event type's websocket.
@@ -101,8 +106,11 @@ class MistyEvent():
             self.log = self.log[1:-1]
         self.log.append(mes)
 
+        if self.ee:
+            self.ee.emit("close_%s" % self.event_name, mes)
+
     def on_open(self, ws):
-        """Appends the opening message to the log and starts the subscription.
+        """Appends the opening message to the log and starts the subscription and if ee is set, emits an 'open' event.
 
         Args:
             ws (websocket.WebSocketApp): the event type's websocket.
@@ -111,6 +119,9 @@ class MistyEvent():
         self.log.append("Opened")
         self.subscribe()
         ws.send("")
+
+        if self.ee:
+            self.ee.emit("open_%s" % self.event_name)
 
     def subscribe(self):
         """Constructs the subscription message.
@@ -140,15 +151,28 @@ class MistyEvent():
         self.ws.close()
 
 class MistyEventHandler:
+    """A class that handles all events its related Misty object subscribed to during this runtime.
+
+    Attributes:
+        events (Dict): a dictionary of all Event objects its related Misty object subscribed to during this runtime.
+        ip (str): the IP address of the Misty belonging to this object's related Misty object.
+    """
+
     def __init__(self, ip: str):
+        """Initialises an object of class MistyEventHandler.
+
+        Args:
+            ip (str): the IP address of the Misty belonging to this object's related Misty object.
+        """
+
         self.events = {}
         self.ip = ip
 
-    def subscribe_event(self, kwargs: dict) -> dict:
+    def subscribe_event(self, kwargs: Dict) -> Dict:
         """Subscribes to an event type.
 
         Args:
-            kwargs (dict):  requires a key "type" (a string representing the event type to subscribe to). Optional keys are:
+            kwargs (Dict):  requires a key "type" (a string representing the event type to subscribe to). Optional keys are:
                 - name (str) for a custom event name; must be unique.
                 - return_property (str) for the property to return from Misty's websockets; all properties are returned if return_property is not supplied.
                 - debounce (int) for the interval at which new information is sent in ms; defaults to 250.
@@ -156,8 +180,9 @@ class MistyEventHandler:
                 - event_emitter (Callable) for an event emitter function which emits an event upon message recieval.
 
         Returns:
-            dict: success/fail message in the form of json dict.
+            Dict: success/fail message in the form of json dict.
         """
+
         event_type = kwargs.get("type")
         if not event_type:
             return {
@@ -182,7 +207,7 @@ class MistyEventHandler:
         event_emitter = kwargs.get("event_emitter")
 
         try:
-            s = MistyEvent(
+            new_event = MistyEvent(
                 self.ip, 
                 event_type, 
                 event_name, 
@@ -198,7 +223,7 @@ class MistyEventHandler:
                 "message" : "Unknown error occurred while attempting to subscribe to an event of type `%s`." % event_type
             }
 
-        self.events[event_name] = s
+        self.events[event_name] = new_event
 
         return {
             "status" : "Success", 
@@ -209,14 +234,14 @@ class MistyEventHandler:
             "event_name" : event_name
         }
 
-    def get_event_data(self, kwargs: dict) -> dict:
+    def get_event_data(self, kwargs: Dict) -> Dict:
         """Obtains data from a subscribed event type.
 
         Args:
-            kwargs (dict): Requires a key "name" (the event name).
+            kwargs (Dict): Requires a key "name" (the event name).
 
         Returns:
-            dict: the data or the fail message in the form of a json dict.
+            Dict: the data or the fail message in the form of a json dict.
         """
 
         event_name = kwargs.get("name")
@@ -244,14 +269,14 @@ class MistyEventHandler:
                 "message" : "Event type `%s` is not subscribed to." % event_name
             }
 
-    def get_event_log(self, kwargs: dict) -> dict:
+    def get_event_log(self, kwargs: Dict) -> Dict:
         """Obtains the log from a subscribed event type.
 
         Args:
-            kwargs (dict): Requires a key "name" (the event name).
+            kwargs (Dict): Requires a key "name" (the event name).
 
         Returns:
-            dict: the log or the fail message in the form of a json dict.
+            Dict: the log or the fail message in the form of a json dict.
         """
 
         event_name = kwargs.get("name")
@@ -280,14 +305,14 @@ class MistyEventHandler:
             }
 
 
-    def unsubscribe_event(self, kwargs: dict) -> dict:
+    def unsubscribe_event(self, kwargs: Dict) -> Dict:
         """Unsubscribes from an event type.
 
         Args:
-            kwargs (dict): Requires a key "name" (the event name).
+            kwargs (Dict): Requires a key "name" (the event name).
 
         Returns:
-            dict: success/fail message in the form of json dict.
+            Dict: success/fail message in the form of json dict.
         """
 
         event_name = kwargs.get("name")

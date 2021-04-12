@@ -1,5 +1,6 @@
 """This script implements the action keywords matching to Misty's API endpoints, sending action requests and data shortcuts.
 """
+from typing import Dict, Union
 import requests
 import json
 from os import path
@@ -20,13 +21,13 @@ class Post():
         allowed_data (dict): The dictionary of custom data shortcuts matching to the json dictionaries required my Misty's API.
     """
 
-    def __init__(self, ip : str, custom_allowed_actions = {}, custom_allowed_data = {}) -> None:
+    def __init__(self, ip : str, custom_allowed_actions: Dict = {}, custom_allowed_data: Dict = {}) -> None:
         """Initialises a Post object.
 
         Args:
             ip (str): The IP address where the requests are sent.
-            custom_allowed_actions (dict, optional): The dictionary of action keywords. Defaults to {}.
-            custom_allowed_data (dict, optional): The dictionary of data shortcuts. Defaults to {}.
+            custom_allowed_actions (Dict, optional): The dictionary of action keywords. Defaults to {}.
+            custom_allowed_data (Dict, optional): The dictionary of data shortcuts. Defaults to {}.
         """
 
         self.ip = ip
@@ -43,81 +44,114 @@ class Post():
         f.close()
         self.allowed_data = allowed_data
 
-    def perform_action(self, endpoint : str, data: dict, request_method: str = "post") -> dict:
+    def perform_action(self, endpoint : str, data: Dict, request_method: str = "post") -> Dict:
         """Sends a POST request.
 
         Args:
             endpoint (str): The API endpoint to which the request is sent.
-            data (dict): The json data supplied in the body of the request.
+            data (Dict): The json data supplied in the body of the request.
             request_method (str, optional): The request method. Defaults to "post".
 
         Returns:
-            dict: The API response.
+            Dict: The API response.
         """
 
         if request_method=="post":
-            r = requests.post('http://%s/%s' % (self.ip, endpoint), json = data)
+            response = requests.post('http://%s/%s' % (self.ip, endpoint), json = data)
         else:
-            r = requests.delete('http://%s/%s' % (self.ip, endpoint), json = data)
+            response = requests.delete('http://%s/%s' % (self.ip, endpoint), json = data)
         try:
-            return r.json()
+            return response.json()
         except:
-            return {'status' : 'Success', 'content' : r.content}
+            return {'status' : 'Success', 'content' : response.content}
         
 
 class Action(Post):
     """A class representing an action request for Misty. A subclass of Post().
     """
 
-    def perform_action(self, action_name: str, data, data_method : str) -> dict:
+    def perform_action(self, action_name: str, data: Union[str, Dict], data_method: str) -> Dict:
         """Sends an action request to Misty.
 
         Args:
             action_name (str): The action keyword specifying which action is requested.
-            data (string or dict): The data shortcut representing the data supplied in the body of the request or the json dictionary to be supplied in the body of the request.
+            data (Union[str, Dict]): The data shortcut representing the data supplied in the body of the request or the json dictionary to be supplied in the body of the request.
             data_method (str): "dict" if the data is supplied as a json dictionary, "string" if the data is supplied as a data shortcut.
 
         Returns:
-            dict: the response from the API.
+            Dict: the response from the API.
         """
 
         if not action_name in self.allowed_actions.keys():
-            return {"status" : "Failed", "message" : "Command `%s` not supported." % action_name}
+            return {
+                "status" : "Failed", 
+                "message" : "Command `%s` not supported." % action_name
+            }
+
         else:
             if data_method == "dict":
                 try:
-                    return super().perform_action(self.allowed_actions[action_name]["endpoint"], data, request_method=self.allowed_actions[action_name]["method"])
+                    return super().perform_action(
+                        self.allowed_actions[action_name]["endpoint"], 
+                        data, 
+                        request_method=self.allowed_actions[action_name]["method"]
+                    )
+
                 except:
-                    return {"status" : "Failed", "message" : "Error: %s." %  sys.exc_info()[1]}
+                    return {
+                        "status" : "Failed",
+                        "message" : "Error: %s." %  sys.exc_info()[1]
+                    }
+
             elif data_method == "string" and data in self.allowed_data:
                 try:
-                    return super().perform_action(self.allowed_actions[action_name]["endpoint"], self.allowed_data[data], request_method=self.allowed_actions[action_name]["method"])
+                    return super().perform_action(
+                        self.allowed_actions[action_name]["endpoint"], 
+                        self.allowed_data[data], 
+                        request_method=self.allowed_actions[action_name]["method"]
+                    )
+
                 except:
-                    return {"status" : "Failed", "message" : "Error: %s." %  sys.exc_info()[1]}
+                    return {
+                        "status" : "Failed", 
+                        "message" : "Error: %s." %  sys.exc_info()[1]
+                    }
+
             else:
-                return {"status" : "Failed", "message" : "Data shortcut `%s` not supported." % data}
+                return {
+                    "status" : "Failed", 
+                    "message" : "Data shortcut `%s` not supported." % data
+                }
         
-    def action_handler(self, action_name: str, data: dict):
+    def action_handler(self, action_name: str, data: Union[Dict, str]) -> Dict:
         """Sends Misty a request to perform an action.
 
         Args:
             action_name (str): The keyword specifying the action to perform.
-            data (dict): The data to send in the request body in the form of a data shortcut or a json dictionary.
+            data (Union[Dict, str]): The data to send in the request body in the form of a data shortcut or a json dictionary.
 
         Returns:
-            dict: response from the API
+            Dict: response from the API
         """
         
-        if action_name == "led_trans" and isinstance(data, dict) and len(data)>=2 and len(data)<=4:
+        if action_name == "led_trans" and isinstance(data, Dict) and len(data) >= 2 and len(data) <= 4:
+            
             try:
                 data = construct_transition_dict(data, self.allowed_data)
+
             except ValueError as e:
-                return {"status" : "Failed", "message" : "The data is not in correct format.", "details": e}
+                return {
+                    "status" : "Failed", 
+                    "message" : "The data is not in correct format.", 
+                    "details": e
+                }
 
         data_method = ""
-        if isinstance(data, dict):
+
+        if isinstance(data, Dict):
             data_method = "dict"
+
         else:
             data_method = "string"
-        r = self.perform_action(action_name, data, data_method)
-        return r
+        
+        return self.perform_action(action_name, data, data_method)

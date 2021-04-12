@@ -3,6 +3,7 @@
 import base64
 import string
 import random
+from typing import Dict
 
 
 def get_random_string(n: int) -> str:
@@ -19,7 +20,7 @@ def get_random_string(n: int) -> str:
 
     return ''.join(random.SystemRandom().choice(string.ascii_letters + string.digits) for _ in range(n))
 
-def rgb(red: int, green: int, blue: int) -> dict:
+def rgb(red: int, green: int, blue: int) -> Dict:
     """Returns rgb dictionary from rgb values.
 
     Args:
@@ -41,7 +42,7 @@ def rgb(red: int, green: int, blue: int) -> dict:
         "blue": blue
     }
 
-def construct_transition_dict(data: dict, allowed_data: dict) -> dict:
+def construct_transition_dict(data: Dict, allowed_data: Dict) -> Dict:
     """Constructs input to led_trans action from a dict of two colours data dictionaries or shortcuts (under keys col1, col2) and optionally transition time (key time) and transition style (key transition).
 
     Args:
