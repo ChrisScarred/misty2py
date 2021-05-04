@@ -459,11 +459,28 @@ THe folder `skills` in the main folder of this project contains examples of skil
 
 ### Instructions for running the example skills
 
-- copy `.env.example` to `.env`
-- replace the placeholder values in the new `.env` file
-- if this is your first time using `misty2py` from source, run `poetry install` to obtain all dependencies
+- if this is your first time using `misty2py` from source, do following:
+
+  - copy `.env.example` to `.env`
+  - replace the placeholder values in the new `.env` file
+  - run `poetry install` to obtain all dependencies
+
 - run the desired script via `poetry run python -m skills.[name]` where `[name]` is the placeholder for the script name without the `.py` extension
 - if the scripts run but your Misty does not seem to respond, you have most likely provided an incorrect IP address for `MISTY_IP_ADDRESS` in `.env`
+
+## Pytests
+
+This repository contains several parametrised unit tests under the pytest library that can be found in the directory `tests`. At this point, the test coverage is not known.
+
+### Instructions for running the pytests
+
+- if this is your first time using `misty2py` from source, do following:
+
+  - copy `.env.example` to `.env`
+  - replace the placeholder values in the new `.env` file
+  - run `poetry install` to obtain all dependencies
+  
+- run pytests via `poetry run python -m pytest`
 
 ## TODO - Future features
 
