@@ -1,16 +1,16 @@
 # Misty2py
 
-Misty2py is a python wrapper around [Misty API](https://docs.mistyrobotics.com/misty-ii/rest-api/api-reference/ "Misty Robotics REST API").
+misty2py is a Python library for Misty II development using [Misty API](https://docs.mistyrobotics.com/misty-ii/rest-api/api-reference/ "Misty Robotics REST API").
 
 ## Features
 
-Misty2py can be used to:
+misty2py can be used to:
 
 - **perform actions** via sending a `POST` or `DELETE` requests to Misty's API;
 - **obtain information** via sending a `GET` request to Misty's API;
 - **receive continuous streams of data** via subscribing to event types on Misty's websockets.
 
-Misty2py uses following concepts:
+misty2py uses following concepts:
 
 - **action keywords** - keywords for endpoints of Misty's API that correspond to performing actions;
 - **information keywords** - keywords for endpoints of Misty's API that correspond to retrieving information;
@@ -450,3 +450,14 @@ misty_robot = Misty("0.0.0.0",
     custom_actions=custom_allowed_actions, 
     custom_data=custom_allowed_data)
 ```
+
+## TODO - Future features
+
+- support for `EventConditions` in event subscriptions
+- clearer documentation
+- sample skills:
+
+  - greeting behaviour
+  - face recognition
+  - question answering
+  - mapping and movement
