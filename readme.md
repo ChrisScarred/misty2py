@@ -1,19 +1,25 @@
 # Misty2py
-Misty2py is a python wrapper around [Misty API](https://docs.mistyrobotics.com/misty-ii/rest-api/api-reference/ "Misty Robotics REST API").
+
+misty2py is a Python library for Misty II development using [Misty API](https://docs.mistyrobotics.com/misty-ii/rest-api/api-reference/ "Misty Robotics REST API").
 
 ## Features
-Misty2py can be used to:
+
+misty2py can be used to:
+
 - **perform actions** via sending a `POST` or `DELETE` requests to Misty's API;
 - **obtain information** via sending a `GET` request to Misty's API;
 - **receive continuous streams of data** via subscribing to event types on Misty's websockets.
 
-Misty2py uses following concepts:
+misty2py uses following concepts:
+
 - **action keywords** - keywords for endpoints of Misty's API that correspond to performing actions;
 - **information keywords** - keywords for endpoints of Misty's API that correspond to retrieving information;
 - **data shortcuts** - keywords for commonly used data that is supplied to Misty's API as the body of a `POST` request.
 
 ## Usage
+
 ### Getting started
+
 - Start by making **a new instance** of `Misty`:
 
 ```python
@@ -27,49 +33,106 @@ misty_robot = Misty("0.0.0.0")
 - Use methods `Misty.subscribe_event_type()`, `Misty.unsubscribe_event_type()` and `Misty.get_event_data()` to **obtain continuous streams of data** from Misty's event types.
 
 ### Obtaining information
+
 Obtaining digital information is handled by `Misty.get_info()` method.
 
 `Misty.get_info()` has following arguments:
+
 - `info_name` - *required;* the string information keyword corresponding to an endpoint in Misty's API;
 - `params` - *optional;* a dictionary of parameter name and parameter value, defaults to `{}`.
 
 ### Performing actions
+
 Performing physical and digital actions including removal of non-system files is handled by `Misty.perform_action()` method.
 
 `Misty.perform_action()` has following arguments:
+
 - `action_name` - *required;* the string action keyword corresponding to an endpoint in Misty's API;
 - `data` - *optional;* the data to pass to the request as a dictionary or a data shortcut (string), defaults to `{}`.
 
 ### Event types
-To obtain event data in Misty's framework, it is required to **subscribe** to an event type on Misty's websocket server. Misty's websocket server then streams data to the websocket client, in this implementation via a separate deamon thread. To **access this data,** `Misty.get_event_data()` method must be called from another thread. When data is no longer required to be streamed to the client, an event type can be **unsubscribed** to kill the deamon thread.
+
+To obtain event data in Misty's framework, it is required to **subscribe** to an event type on Misty's websocket server. Misty's websocket server then streams data to the websocket client, in this implementation via a separate thread. To **access this data,** `Misty.get_event_data()` method must be called from another thread. When data is no longer required to be streamed to the client, an event type can be **unsubscribed** to kill the event thread.
 
 #### Subscription
-Subscribe to an event via `Misty.subscribe_event_type()` with following arguments:
-- `type_str_value` - *required;* event type string as denoted in [Event Types Docs](https://docs.mistyrobotics.com/misty-ii/robot/sensor-data/ "Misty Robotics Event Types").
-- `event_name_value` - *optional;* a unique name for this subscription. Defaults to `"event"`.
-- `return_property_value` - *optional;* the property to return or `None` if all properties should be returned. Defaults to `None`.
-- `debounce_value` - *optional;* the interval at which new information is sent in ms. Defaults to `250`.
-- `len_data_entries` - *optional;* the maximum number of data entries to keep. Discards in fifo style (first in, first out). Defaults to `10`.
 
-`Misty.subscribe_event_type()` returns a dictionary with keys `"status"` (value `"Success"` or `"Failed"`) and `"message"` with details.
+Subscribe to an event via `Misty.event("subscribe", **kwargs)` with following keyword arguments:
+    - `type` - *required;* event type string as documented in [Event Types Docs](https://docs.mistyrobotics.com/misty-ii/robot/sensor-data/ "Misty Robotics Event Types").
+    - `name` - *optional;* a custom event name string; must be unique.
+    - `return_property` - *optional;* the property to return from Misty's websockets; all properties are returned if return_property is not supplied.
+    - `debounce` - *optional;* the interval in ms at which new information is sent; defaults to 250.
+    - `len_data_entries` - *optional;* the maximum number of data entries to keep (discards in fifo style); defaults to 10.
+    - `event_emitter` - *optional;* an event emitter function which emits an event upon message recieval. Supplies the message content as an argument.
 
-#### Obtaining data
-Given `event_name_value` is a name of a subscribed event, its data can be obtained by: `Misty.get_event_data(event_name_value)`.
+#### Accessing the data and the log
 
-`Misty.get_event_data()` returns a dictionary with keys `"status"` (value `"Success"` or `"Failed"`) and `"message"` with the data if successful or error details otherwise.
-
-#### Obtaining logs
-Given `event_name_value` is a name of a subscribed event, its logs can be obtained by: `Misty.get_event_log(event_name_value)`.
-
-`Misty.get_event_log()` returns a dictionary with keys `"status"` (value `"Success"` or `"Failed"`) and `"message"` with the logs if successful or error details otherwise.
+Access the data of an event or its log via `Misty.event("get_data", **kwargs)` or `Misty.event("get_log", **kwargs)` with a keyword argument `name` (the name of the event).
 
 #### Unsubscribing
-Given `event_name_value` is a name of a subscribed event, `event_name_value` can be unsubscribed by: `Misty.unsubscribe_event_type(event_name_value)`.
 
-`Misty.unsubscribe_event_type()` returns a dictionary with keys `"status"` (value `"Success"` or `"Failed"`) and `"message"` with the logs if successful or error details otherwise.
+Unsubscribe from an event via `Misty.event("unsubscribe", **kwargs)` with a keyword argument `name` (the name of the event).
+
+#### Basic example
+
+```python
+import time
+
+from misty2py.robot import Misty
+
+
+m = Misty("0.0.0.0")
+
+event = "BatteryCharge"
+
+d = m.event("subscribe", type = event)
+e_name = d.get("event_name")
+
+time.sleep(1)
+
+d = m.event("get_data", name = e_name)
+
+d = m.event("unsubscribe", name = e_name)
+```
+
+#### Event emitter usage - example
+
+```python
+import time
+from pymitter import EventEmitter
+
+from misty2py.robot import Misty
+
+
+m = Misty("192.168.0.103")
+ee = EventEmitter()
+event_name = "myevent_001"
+
+@ee.on(event_name)
+def listener(data):
+    print(data)
+
+
+event_type = "BatteryCharge"
+d = m.event("subscribe", type = event_type, name = event_name, event_emitter = ee)
+print(d)
+time.sleep(2)
+d = m.event("unsubscribe", name = event_name)
+print(d)
+```
+
+### Utilities
+
+The module `misty2py.utils` contains utility functions, including:
+
+- `get_random_string(n: int) -> str` - returns an *n* characters long random string containing ASCII letters and digits. This function is especially useful when naming events.
+- `rgb(red: int, green: int, blue: int) -> dict` - constructs a dictionary of a colour as required by Misty's API from three integers *red*, *green* and *blue*
+- `construct_transition_dict(data: dict, allowed_data: dict) -> dict` - constructs input to led_trans action from a dict of two colours data dictionaries or shortcuts (under keys col1, col2) and optionally transition time (key time) and transition style (key transition). *allowed_data* is the dictionary of allowed data shortcuts for the particular Misty object the resulting dictionary is planned to be used in.
+- `file_to_base64_string(fname: str) -> str` - converts a file (an image or a video) into a `base64` string which can be sent via HTTP requests to Misty's API.  
 
 ### Keywords and shortcuts
+
 #### List of supported action keywords
+
 - `led` for **post** request to `api/led` endpoint
 - `led_trans` for **post** request to `api/led/transition` endpoint
 - `notification_settings` for **post** request to `api/notification/settings` endpoint
@@ -175,6 +238,7 @@ Given `event_name_value` is a name of a subscribed event, `event_name_value` can
 - `external_request` for **post** request to `api/request` endpoint
 
 #### List of supported information keywords
+
 - `audio_file` for **get** request to `api/audio` endpoint
 - `audio_list` for **get** request to `api/audio/list` endpoint
 - `audio_status` for **get** request to `api/services/audio` endpoint
@@ -218,6 +282,7 @@ Given `event_name_value` is a name of a subscribed event, `event_name_value` can
 - `websocket_version` for **get** request to `api/websocket/version`
 
 #### List of supported data shortcuts
+
 - `led_off` for `{ "red": "0", "green": "0", "blue": "0" }`
 - `white_light` for `{ "red": "255", "green": "255", "blue": "255" }`
 - `red_light` for `{ "red": "255", "green": "0", "blue": "0" }`
@@ -233,6 +298,51 @@ Given `event_name_value` is a name of a subscribed event, `event_name_value` can
 - `violet_light` for `{ "red": "125", "green": "0", "blue": "255" }`
 - `pink_light` for `{ "red": "255", "green": "0", "blue": "125" }`
 - `low_volume` for `{ "Volume": "5" }`
+- `image_admiration` for `{"FileName": "e_Admiration.jpg"}`
+- `image_aggressiveness` for `{"FileName": "e_Aggressiveness.jpg"}`
+- `image_amazement` for `{"FileName": "e_Amazement.jpg"}`
+- `image_anger` for `{"FileName": "e_Anger.jpg"}`
+- `image_concerned` for `{"FileName": "e_ApprehensionConcerned.jpg"}`
+- `image_contempt` for `{"FileName": "e_Contempt.jpg"}`
+- `image_content_left` for `{"FileName": "e_ContentLeft.jpg"}`
+- `image_content_right` for `{"FileName": "e_ContentRight.jpg"}`
+- `image_content_default` for `{"FileName": "e_DefaultContent.jpg"}`
+- `image_disgust` for `{"FileName": "e_Disgust.jpg"}`
+- `image_disoriented` for `{"FileName": "e_Disoriented.jpg"}`
+- `image_hilarious` for `{"FileName": "e_EcstacyHilarious.jpg"}`
+- `image_starry_eyed` for `{"FileName": "e_EcstacyStarryEyed.jpg"}`
+- `image_fear` for `{"FileName": "e_Fear.jpg"}`
+- `image_grief` for `{"FileName": "e_Grief.jpg"}`
+- `image_joy_1` for `{"FileName": "e_Joy.jpg"}`
+- `image_joy_2` for `{"FileName": "e_Joy2.jpg"}`
+- `image_goofy_1` for `{"FileName": "e_JoyGoofy.jpg"}`
+- `image_goofy_2` for `{"FileName": "e_JoyGoofy2.jpg"}`
+- `image_goofy_3` for `{"FileName": "e_JoyGoofy3.jpg"}`
+- `image_love` for `{"FileName": "e_Love.jpg"}`
+- `image_rage_1` for `{"FileName": "e_Rage.jpg"}`
+- `image_rage_2` for `{"FileName": "e_Rage2.jpg"}`
+- `image_rage_3` for `{"FileName": "e_Rage3.jpg"}`
+- `image_rage_4` for `{"FileName": "e_Rage4.jpg"}`
+- `image_remorse` for `{"FileName": "e_RemorseShame.jpg"}`
+- `image_sadness` for `{"FileName": "e_Sadness.jpg"}`
+- `image_sleping_1` for `{"FileName": "e_Sleeping.jpg"}`
+- `image_sleeping_2` for `{"FileName": "e_SleepingZZZ.jpg"}`
+- `image_sleepy_1` for `{"FileName": "e_Sleepy.jpg"}`
+- `image_sleepy_2` for `{"FileName": "e_Sleepy2.jpg"}`
+- `image_sleepy_3` for `{"FileName": "e_Sleepy3.jpg"}`
+- `image_sleepy_4` for `{"FileName": "e_Sleepy4.jpg"}`
+- `image_surprise` for `{"FileName": "e_Surprise.jpg"}`
+- `image_system_black_screen` for `{"FileName": "e_SystemBlackScreen.jpg"}`
+- `image_system_blink_large` for `{"FileName": "e_SystemBlinkLarge.jpg"}`
+- `image_system_blink_standard` for `{"FileName": "e_SystemBlinkStandard.jpg"}`
+- `image_system_camera` for `{"FileName": "e_SystemCamera.jpg"}`
+- `image_system_flash` for `{"FileName": "e_SystemFlash.jpg"}`
+- `image_system_gear_prompt` for `{"FileName": "e_SystemGearPrompt.jpg"}`
+- `image_system_logo_prompt` for `{"FileName": "e_SystemLogoPrompt.jpg"}`
+- `image_terror_1` for `{"FileName": "e_Terror.jpg"}`
+- `image_terror_2` for `{"FileName": "e_Terror2.jpg"}`
+- `image_terror_left` for `{"FileName": "e_TerrorLeft.jpg"}`
+- `image_terror_right` for `{"FileName": "e_TerrorRight.jpg"}`
 - `sound_acceptance` for `{ "FileName": "s_Acceptance.wav" }`
 - `sound_amazement_1` for `{ "FileName": "s_Amazement.wav" }`
 - `sound_amazement_2` for `{ "FileName": "s_Amazement2.wav" }`
@@ -299,7 +409,9 @@ Given `event_name_value` is a name of a subscribed event, `event_name_value` can
 - `sound_wake` for `{ "FileName": "s_SystemWakeWord.wav" }`
 
 #### Adding custom keywords and shortcuts
+
 Custom keywords and shortcuts can be passed to a Misty object while declaring a new instance by using the optional arguments:
+
 - `custom_info` for custom information keywords (a dictionary with keys being the information keywords and values being the endpoints),
 - `custom_actions` for custom action keywords (a dictionary with keys being the action keywords and values being a dictionary `{"endpoint" : "edpoint_value", "method" : "method_value"}` where `method_value` is either `post` or `delete`),
 - `custom_data` for custom data shortcuts (a dictionary with keys being the data shortcuts and values being the dictionary of data values).
@@ -338,3 +450,14 @@ misty_robot = Misty("0.0.0.0",
     custom_actions=custom_allowed_actions, 
     custom_data=custom_allowed_data)
 ```
+
+## TODO - Future features
+
+- support for `EventConditions` in event subscriptions
+- clearer documentation
+- sample skills:
+
+  - greeting behaviour
+  - face recognition
+  - question answering
+  - mapping and movement
