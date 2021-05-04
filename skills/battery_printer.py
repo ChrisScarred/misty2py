@@ -4,7 +4,7 @@ from typing import Callable, Dict, Iterable, List, Union
 from pymitter import EventEmitter
 
 from misty2py.robot import Misty
-
+from utils.env_loader import *
 
 ee = EventEmitter()
 event_name = "myevent_001"
@@ -55,7 +55,7 @@ def main(args: Iterable):
     else:
         duration = DEFAULT_DURATION
 
-    m = Misty("192.168.0.103")
+    m = Misty(MISTY_IP)
     battery_printer(m, duration)
 
 
