@@ -456,6 +456,7 @@ misty_robot = Misty("0.0.0.0",
 THe folder `skills` in the main folder of this project contains examples of skills which can be developed with misty2py library. Currently, the example skills contain:
 
 - `battery_printer.py` - this script prints Misty's battery status every 250 ms for the duration specified as the second CLI argument in seconds (optional, defaults to 2 seconds).
+- `listening_expression.py` - this script contains a simple expression that makes Misty appear to be listening.
 
 ### Instructions for running the example skills
 
