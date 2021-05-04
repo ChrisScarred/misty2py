@@ -194,7 +194,7 @@ class MistyEventHandler:
 
         event_name = kwargs.get("name")
         if not event_name:
-            event_name = "event_%s" % get_random_string(8)
+            event_name = "event_%s_%s" % (event_type, get_random_string(8))
 
         return_property = kwargs.get("return_property")
 
