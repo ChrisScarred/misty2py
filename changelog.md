@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `skills` folder for example skills
+- `skills/battery_printer.py` as an example skill involving an event emitter
+
+### Changed
+
+- automatically generated event names now contain the event type
+
+## 2.0.0 - 04-05-2021
+
+### Added
+
 - data shortcuts for system images
 - `MistyEventHandler` class
 - `event_emitter` in `MistyEvent` and `MistyEventHandler`
