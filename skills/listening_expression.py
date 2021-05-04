@@ -6,7 +6,12 @@ from misty2py.utils import *
 from utils.env_loader import *
 
 
-def listening_expression(misty: Callable, colour: str = "azure_light", sound: str = "sound_wake", duration: Union[float, int] = 1.5):
+def listening_expression(
+    misty: Callable,
+    colour: str = "azure_light",
+    sound: str = "sound_wake",
+    duration: Union[float, int] = 1.5,
+):
     """Misty plays a sound and lights up to appear interested / listening. Lights last for 'duration' seconds. The sound is played in the begining right after the lights are lit.
 
     Args:
@@ -22,11 +27,10 @@ def listening_expression(misty: Callable, colour: str = "azure_light", sound: st
 
 
 def main():
-    """Creates an instance of Misty class and calls the listening_expression function with the instance as an argument.
-    """
+    """Creates an instance of Misty class and calls the listening_expression function with the instance as an argument."""
     m = Misty(MISTY_IP)
     listening_expression(m)
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     main()

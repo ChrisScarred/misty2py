@@ -5,16 +5,14 @@ from misty2py.robot import Misty
 from utils.env_loader import *
 
 
-def angry_expression(misty: Callable, 
+def angry_expression(
+    misty: Callable,
     expression: str = "image_anger",
     sound: str = "sound_anger_1",
     led_offset: Union[float, int] = 0.5,
     duration: Union[float, int] = 1.5,
-    colours: Dict = {
-        "col1": "red_light",
-        "col2": "orange_light",
-        "time": 200
-    }):
+    colours: Dict = {"col1": "red_light", "col2": "orange_light", "time": 200},
+):
     """Misty appears angry. Her displayed image changes to 'expression' and 'led_offset' seconds after, led changes to 'colours' and 'sound' is played. Lights last for 'duration' seconds and 'expression' image lasts for 'led_offset'+'duration' seconds.
 
     Args:
@@ -35,11 +33,10 @@ def angry_expression(misty: Callable,
 
 
 def main():
-    """Creates a Misty object and calls angry expression with it as a parameter.
-    """
+    """Creates a Misty object and calls angry expression with it as a parameter."""
     m = Misty(MISTY_IP)
     angry_expression(m)
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     main()
