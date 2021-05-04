@@ -84,7 +84,7 @@ def construct_transition_dict(data: Dict, allowed_data: Dict) -> Dict:
         transition = data["transition"]
 
     for subcolour in ["red", "green", "blue"]:
-        val1 = col1.get(subcolour)
+        val1 = int(col1.get(subcolour))
 
         if val1:
             if val1 < 0 or val1 > 255:
@@ -92,7 +92,7 @@ def construct_transition_dict(data: Dict, allowed_data: Dict) -> Dict:
         else:
             raise ValueError("Missing value: `%s` of `col1`" % subcolour)
 
-        val2 = col2.get(subcolour)
+        val2 = int(col2.get(subcolour))
 
         if val2:
             if val2 < 0 or val2 > 255:
