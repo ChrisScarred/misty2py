@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `skills` folder for example skills
 - `skills/battery_printer.py` as an example skill involving an event emitter
 - `skills/listening_expression.py`
+- `skills/angry_expression.py`
 
 ### Changed
 
