@@ -5,7 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## 2.0.1 - 05-05-2021
+
+### Added
+
+- `skills` folder for example skills
+- `skills/battery_printer.py` as an example skill involving an event emitter
+- `skills/listening_expression.py`
+- `skills/angry_expression.py`
+
+### Changed
+
+- automatically generated event names now contain the event type
+
+### Fixed
+
+- `construct_transition_dict` raised TypeError when attempting to compare str to int; fix: explicitly casting str to int
+
+## 2.0.0 - 04-05-2021
 
 ### Added
 

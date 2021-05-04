@@ -3,6 +3,7 @@ from os import path
 import time
 
 from misty2py.robot import Misty
+from utils.env_loader import *
 
 
 DIR_NAME = path.abspath(path.dirname(__file__))
@@ -15,7 +16,7 @@ with open(path.join(DIR_NAME, "custom_allowed_infos.json")) as f:
     custom_allowed_actions = json.loads(f.read())
 
 MISTY = Misty(
-    "192.168.0.103",
+    MISTY_IP,
     custom_info=custom_allowed_infos,
     custom_actions=custom_allowed_actions,
     custom_data=custom_allowed_data,
@@ -23,7 +24,7 @@ MISTY = Misty(
 
 
 def test_misty_print():
-    assert str(MISTY) == "A Misty II robot with IP address 192.168.0.103"
+    assert str(MISTY) == "A Misty II robot with IP address %s" % MISTY_IP
 
 
 def test_basic_action_dict_method():

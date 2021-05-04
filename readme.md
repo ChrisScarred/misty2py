@@ -451,6 +451,39 @@ misty_robot = Misty("0.0.0.0",
     custom_data=custom_allowed_data)
 ```
 
+## Example skills
+
+THe folder `skills` in the main folder of this project contains examples of skills which can be developed with misty2py library. Currently, the example skills contain:
+
+- `battery_printer.py` - this script prints Misty's battery status every 250 ms for the duration specified as the second CLI argument in seconds (optional, defaults to 2 seconds).
+- `listening_expression.py` - this script contains a simple expression that makes Misty appear to be listening.
+- `angry_expression.py` - this script contains a simple expression that makes Misty appear to be angry.
+
+### Instructions for running the example skills
+
+- if this is your first time using `misty2py` from source, do following:
+
+  - copy `.env.example` to `.env`
+  - replace the placeholder values in the new `.env` file
+  - run `poetry install` to obtain all dependencies
+
+- run the desired script via `poetry run python -m skills.[name]` where `[name]` is the placeholder for the script name without the `.py` extension
+- if the scripts run but your Misty does not seem to respond, you have most likely provided an incorrect IP address for `MISTY_IP_ADDRESS` in `.env`
+
+## Pytests
+
+This repository contains several parametrised unit tests under the pytest library that can be found in the directory `tests`. At this point, the test coverage is not known.
+
+### Instructions for running the pytests
+
+- if this is your first time using `misty2py` from source, do following:
+
+  - copy `.env.example` to `.env`
+  - replace the placeholder values in the new `.env` file
+  - run `poetry install` to obtain all dependencies
+  
+- run pytests via `poetry run python -m pytest`
+
 ## TODO - Future features
 
 - support for `EventConditions` in event subscriptions
