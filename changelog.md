@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - automatically generated event names now contain the event type
 
+### Fixed
+
+- `construct_transition_dict` raised TypeError when attempting to compare str to int; fix: explicitly casting str to int
+
 ## 2.0.0 - 04-05-2021
 
 ### Added
