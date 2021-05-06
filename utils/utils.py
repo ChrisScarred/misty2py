@@ -1,8 +1,12 @@
 from typing import Dict
 
 
-def message_parser(data: Dict, message_if_success: str = "Operation successful.", message_if_fail: str = "Operation failed.") -> str:
-    """Parses a message from misty2py json Dict reply to a string. 
+def message_parser(
+    data: Dict,
+    message_if_success: str = "Operation successful.",
+    message_if_fail: str = "Operation failed.",
+) -> str:
+    """Parses a message from misty2py json Dict reply to a string.
 
     Args:
         data (Dict): json Dict to parse.

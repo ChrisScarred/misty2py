@@ -15,6 +15,7 @@ event_name = "listening_greeting_%s" % get_random_string(6)
 
 misty = Misty(MISTY_IP)
 
+
 @ee.on(event_name)
 def listener(data: Dict):
     """Prints received data every time 'event_name' emits data.
@@ -30,9 +31,10 @@ def listener(data: Dict):
 
 
 def greet():
-    """TODO: Document
-    """
-    result = misty.perform_action("keyphrase_recognition_start", data={"CaptureSpeech":"false"})
+    """TODO: Document"""
+    result = misty.perform_action(
+        "keyphrase_recognition_start", data={"CaptureSpeech": "false"}
+    )
     print(message_parser(result))
     event_type = "KeyPhraseRecognized"
     d = misty.event("subscribe", type=event_type, name=event_name, event_emitter=ee)
