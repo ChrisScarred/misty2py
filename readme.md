@@ -460,7 +460,7 @@ The folder `skills` in the main folder of this project contains examples of skil
 - `listening_expression.py` - a simple expression that makes Misty appear to be listening.
 - `angry_expression.py` - a simple expression that makes Misty appear to be angry.
 - `skills/greeting.py` - a skill of Misty reacting to the *"Hey Misty"* keyphrase
-- `skills/delete_non_system_files.py` - a not-yet-implemented skill that removes all non-system audio, video and image files from Misty's memory
+- `skills/free_memory.py` - a skill that removes non-system audio, video, image and recording files from Misty's memory
 
 ### Instructions for running the example skills
 

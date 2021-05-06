@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `skills/template.py` - a template for developing a skill with misty2py
 - `skills/greeting.py` - a skill of Misty reacting to the *"Hey Misty"* keyphrase
-- `skills/delete_non_system_files.py` - a placeholder for a skill that removes all non-system audio, video and image files from Misty's memory
+- `skills/free_memory.py` - a skill that removes non-system audio, video, image and recording files from Misty's memory
 - `utils/utils.py` - utility functions useful for `skills` and `tests`
 
 ## 2.0.1 - 05-05-2021
