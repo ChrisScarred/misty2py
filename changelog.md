@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 2.0.2
+
+### Added
+
+- `skills/template.py` - a template for developing a skill with misty2py
+- `skills/greeting.py` - a skill of Misty reacting to the *"Hey Misty"* keyphrase
+- `skills/free_memory.py` - a skill that removes non-system audio, video, image and recording files from Misty's memory
+- `utils/utils.py` - utility functions useful for `skills` and `tests`
+
 ## 2.0.1 - 05-05-2021
 
 ### Added
